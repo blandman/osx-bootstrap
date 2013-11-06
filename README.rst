@@ -4,7 +4,7 @@ OSX Bootstrap
 
 This is a bash script automating configuration and installation of **OSX** workstations.
 
-This is a for version of https://github.com/divio/osx-bootstrap customized for use within the Peninsula School District.
+This is a fork of https://github.com/divio/osx-bootstrap customized for use within the Peninsula School District.
 
 
 Requirements
