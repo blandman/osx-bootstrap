@@ -7,40 +7,199 @@ source $source_dir/core/helpers.sh
 # require sudo password
 require_sudo
 
-# set hostname
-if [[ ! -f $source_dir/.osx-bootstrap ]]; then
-    echo ''
-    echo '##### Setting Computer Name'
-    # define hostname
-    hostname=$1 && [ ! $1 ] && hostname='osx-'`whoami`
-    # set hostname
-    sudo scutil --set ComputerName $hostname
-    sudo scutil --set HostName $hostname
-    sudo scutil --set LocalHostName $hostname
-    sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $hostname
-fi
 
-# ensure FileVault is active
-`sudo fdesetup isactive`
-if [[ $? != 0 ]]; then
-    echo ''
-    read -p "##### Do you want to enable Disk Encryption? [Yn]" -n 1 -r
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo ''
-        sudo fdesetup enable
-    else
-        echo ''
+
+
+
+getName(){
+    name=$(osascript -e 'Tell application "System Events" to choose from list {"Artondale Elementary School", "Community Transition Program", "Discovery Elementary School", "Educational Service Center", "Evergreen Elementary School", "Gig Harbor High School", "Goodman Middle School", "Harbor Heights Elementary School", "Harbor Ridge Middle School", "Henderson Bay High School", "Key Peninsula Middle School", "Kopachuck Middle School", "Maintenance & Warehouse", "Minter Elementary School", "Peninsula High School", "Purdy Elementary School", "Technical Services", "Transportation", "Vaughn Elementary School", "Voyager Elementary School"} with title "Your Building" with prompt "Please Select your building"')
+
+    if [ $? -ne 0 ]; then
+        cancel=$(osascript -e 'Tell application "System Events" to display alert "You must enter a name for this computer....." as warning')
+        echo "$cancel"
+        exit 1 # exit with an error status
+    elif [ -z "$name" ]; then
+        osascript -e 'Tell application "System Events" to display alert "You must enter a name for this computer....." as warning'
+            getName
+        exit 1 # exit with an error status
     fi
-fi
+    
+    case "$name" in
+                'Artondale Elementary School')
+                        computerlocation="AES"
+                ;;
+                'Community Transition Program')
+                        computerlocation="CTP"
+                ;;
+                'Discovery Elementary School')
+                        computerlocation="DES"
+                ;;
+                'Educational Service Center')
+                        computerlocation="ESC"
+                ;;
+                'Evergreen Elementary School')
+                        computerlocation="EES"
+                ;;
+                'Gig Harbor High School')
+                        computerlocation="GHH"
+                ;;
+                'Goodman Middle School')
+                        computerlocation="GMS"
+                ;;
+                'Harbor Heights Elementary School')
+                        computerlocation="HHE"
+                ;;
+                'Harbor Ridge Middle School')
+                        computerlocation="HRM"
+                ;;
+                'Henderson Bay High School')
+                        computerlocation="HBH"
+                ;;
+                'Key Peninsula Middle School')
+                        computerlocation="KPM"
+                ;;
+                'Kopachuck Middle School')
+                        computerlocation="KMS"
+                ;;
+                'Maintenance & Warehouse')
+                        computerlocation="MTW"
+                ;;
+                'Minter Elementary School')
+                        computerlocation="MES"
+                ;;
+                'Peninsula High School')
+                        computerlocation="PHS"
+                ;;
+                'Purdy Elementary School')
+                        computerlocation="PES"
+                ;;
+                'Technical Services')
+                        computerlocation="TSD"
+                ;;
+                'Transportation')
+                        computerlocation="TRA"
+                ;;
+                'Vaughn Elementary School')
+                        computerlocation="VES"
+                ;;
+                'Voyager Elementary School')
+                        computerlocation="VGE"
+                ;;
+                *)
+                        computerlocation="TSD"
+                ;;
+        esac
 
-# setup workspace
-if [[ ! -d ~/Sites ]]; then
-    mkdir -p ~/Sites
-fi
+    computername="$computertype$computerlocation$computerbarcode"M"$computerOS"
+    getConfirmation
+}
 
-if [[ ! -d ~/Library/LaunchAgents ]]; then
-    mkdir -p ~/Library/LaunchAgents
-fi
+
+
+getBarcode() {
+    
+    tempbarcode=$(osascript -e 'Tell application "System Events" to display dialog "Please Enter the last 6 digits of your computers barcode.\nPlease call ext. 3711 if you need help." buttons {"Next"} default button 1 default answer ""' | grep "text returned:")
+    
+    computerbarcode=$(expr "$tempbarcode" : '.*\([0-9][0-9][0-9][0-9][0-9][0-9]\)')
+    
+    if [ -z "$computerbarcode" ]; then
+        getBarcode
+        terminal-notifier -title “Whoops” -message “You must enter a valid barcode. Expecting 6 numbers”
+    fi
+}
+
+getOS(){
+    computerOS=$(system_profiler SPSoftwareDataType | grep "System Version" | grep -Eho "[0-9][0-9]\.[0-9]" | tr -d '.')
+}
+
+
+
+modelname=$(system_profiler SPHardwareDataType | grep "Model Identifier" | cut -d: -f2)
+
+computertype="DT"
+
+networksetup -setnetworkserviceenabled WiFi off
+networksetup -removenetworkservice WiFi
+networksetup -createnetworkservice Ethernet Ethernet
+
+case "$modelname" in
+*Book*)
+    computertype="LT"
+    networksetup -createnetworkservice WiFi Wi-Fi
+    networksetup -setairportpower en1 on
+;;
+*mini*)
+    computertype="DT"
+;;
+*iMac*)
+    computertype="DT"
+;;
+*MacPro*)
+    computertype="DT"
+;;
+esac
+
+finish(){
+    scutil --set HostName "$computername"
+    scutil --set LocalHostName "$computername"
+    networksetup -setcomputername "$computername"
+    dsconfigad -f -remove -username "martinb" -password "mart8074"
+    dsconfigad -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"
+
+    dsconfigad -groups "PSD-StaffLocalAdmin"
+    case "$modelname" in
+    *Book*)
+        dsconfigad -mobile enable
+        dsconfigad -mobileconfirm disable
+    ;;
+    esac
+    
+    domain=$( dsconfigad -show | awk '/Active Directory Domain/{print $NF}' )   
+
+    if [[ "$domain" == “peninsula.wednet.edu” ]]; then
+        # Check the id of a user
+        id -u adusername
+        # If the check was successful...
+        if [[ $? == 0 ]]; then
+            echo "The Mac is bound to AD"
+        else
+            # If the check failed
+            finish
+        fi
+    else
+        # If the domain returned did not match our expectations
+        finish
+    fi
+}
+
+getConfirmation(){
+    confirm=$(osascript -e 'Tell application "System Events" to display dialog "'"$computername"' is the name that was generated.\nDoes this look correct?" buttons {"Yes", "No"} default button 1' | grep "Yes")
+    echo "$confirm"
+
+    if [[ -z "$confirm" ]]; then
+        getOS
+        getBarcode
+        getName
+    else
+        finish
+    fi
+}
+
+done() {
+    osascript -e 'Tell application "System Events" to display dialog "Script complete" buttons {"Finish"} default button 1'
+}
+
+echo "the computer type is: $computertype"
+
+
+getOS
+getBarcode
+getName
+
+
+
+
+
 
 echo ''
 echo '##### Running OSX Software Updates...'
