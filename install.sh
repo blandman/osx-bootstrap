@@ -18,7 +18,7 @@ source_file_tmp=$source_dir/.osx-bootstrap-tmp
 if [[ ! -d ~/.osx-bootstrap ]]; then
     echo '##### Downloading Bootstrap...'
 	# autoupdate bootstrap file
-	git clone https://github.com/divio/osx-bootstrap.git $source_dir
+	git clone https://github.com/blandman/osx-bootstrap.git $source_dir
 	# hide folder
 	chflags hidden $source_dir
 else
@@ -39,19 +39,19 @@ source $source_dir/core/system.sh $1
 # install brew
 source $source_dir/core/brew.sh
 # install python
-source $source_dir/core/python.sh
+#source $source_dir/core/python.sh
 # install mysql
-source $source_dir/core/mysql.sh
+#source $source_dir/core/mysql.sh
 # install postgres
-source $source_dir/core/postgres.sh
+#source $source_dir/core/postgres.sh
 # install compass
-source $source_dir/core/compass.sh
+#source $source_dir/core/compass.sh
 # install zsh
-source $source_dir/core/zsh.sh
+#source $source_dir/core/zsh.sh
 # install defaults
 source $source_dir/core/defaults.sh
 # install github
-source $source_dir/core/github.sh
+#source $source_dir/core/github.sh
 # place your extras here
 
 # create bootstrap file
