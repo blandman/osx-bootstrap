@@ -19,7 +19,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     # Disable press-and-hold for keys in favor of key repeat
     defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
     # Finder: show all filename extensions
-    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+    defaults write NSGlobalDomain AppleShowAllExtensions -bool false
     # Set a shorter Delay until key repeat
     defaults write NSGlobalDomain InitialKeyRepeat -int 12
     # always show scrollbars
@@ -27,7 +27,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     # Set a blazingly fast keyboard repeat rate
     defaults write NSGlobalDomain KeyRepeat -int 0
     # Disable window animations
-    defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+    defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool true
     # I don't even... (disabling auto-correct)
     defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
     # Disable automatic termination of inactive apps
@@ -36,22 +36,22 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
     # Expanding the save panel by default
     defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-    # Disable smooth scrolling
-    defaults write NSGlobalDomain NSScrollAnimationEnabled -bool false
+    # Enable smooth scrolling
+    defaults write NSGlobalDomain NSScrollAnimationEnabled -bool true
     # Disable Resume system-wide
     defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
     # Display ASCII control characters using caret notation in standard text views
     defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true
     # Increasing the window resize speed for Cocoa applications whether you like it or not
-    defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+    #defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
     # Expand print panel by default
     defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-    # Disable “natural” (Lion-style) scrolling
-    defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+    # Enable “natural” (Lion-style) scrolling
+    defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
     # FINDER
-    # Show dotfiles in Finder
-    defaults write com.apple.finder AppleShowAllFiles TRUE
+    # Hide dotfiles in Finder
+    defaults write com.apple.finder AppleShowAllFiles FALSE
     # Setting Trash to empty securely by default
     defaults write com.apple.finder EmptyTrashSecurely -bool true
     # Disable the warning when changing a file extension
@@ -60,8 +60,8 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     defaults write com.apple.Finder FXPreferredViewStyle -string "Nlsv"
     # When performing a search, search the current folder by default
     defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
-    # Show absolute path in finder's title bar
-    defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
+    # Do not show absolute path in finder's title bar
+    defaults write com.apple.finder _FXShowPosixPathInTitle -bool NO
     # Allow text selection in Quick Look/Preview
     defaults write com.apple.finder QLEnableTextSelection -bool true
     # Show Path bar in Finder
@@ -71,7 +71,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     # Avoiding creating stupid .DS_Store files on network volumes
     defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
     # Show the ~/Library folder
-    chflags nohidden ~/Library
+    #chflags nohidden ~/Library
 
     # DESKTOP & DOCK
     # Enable snap-to-grid for icons on the desktop and in other icon views
@@ -80,7 +80,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     # Set the icon size of Dock items to 36 pixels
     defaults write com.apple.dock tilesize -int 36
     # Speeding up Mission Control animations and grouping windows by application
-    defaults write com.apple.dock expose-animation-duration -float 0.1
+    defaults write com.apple.dock expose-animation-duration -float 0.5
     defaults write com.apple.dock "expose-group-by-app" -bool true
     # Enabling iTunes track notifications in the Dock
     defaults write com.apple.dock itunes-notifications -bool true
@@ -125,8 +125,8 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     hash tmutil &> /dev/null && sudo tmutil disablelocal
 
     # SECURITY
-    # Requiring password immediately after sleep or screen saver begins
-    defaults write com.apple.screensaver askForPassword -int 1
+    # Dont Requiring password immediately after sleep or screen saver begins
+    defaults write com.apple.screensaver askForPassword -int 0
     defaults write com.apple.screensaver askForPasswordDelay -int 0
     # Disable the “Are you sure you want to open this application?” dialog
     defaults write com.apple.LaunchServices LSQuarantine -bool false
@@ -142,6 +142,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     sudo touch /private/var/db/.AccessibilityAPIEnabled
     # Trackpad: enable tap to click for this user and for the login screen
     defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
     defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
     defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
     # Increasing sound quality for Bluetooth headphones/headsets, because duhhhhh
