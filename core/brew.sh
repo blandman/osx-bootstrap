@@ -60,6 +60,7 @@ do
     echo "WOO"
     tmp=`brew list | grep $formula`
     ((i += 1))
+    percent=((${#formulas[@]} / i))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
         brew install $formula
@@ -97,5 +98,5 @@ do
         fi
     fi
 
-    echo "$i We're now at $i%"; sleep .05
+    echo "$i We're now at $percent%"; sleep 1
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
