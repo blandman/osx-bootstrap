@@ -140,31 +140,25 @@ case "$modelname" in
 esac
 
 finish(){
-    rm -f $source_dir/tmp/hpipe
-    mkdir $source_dir/tmp
-    mkfifo $source_dir/tmp/hpipe
-
-    for (( i = 1; i <= 100; i++ )); do
-        echo "$i We're now at $i%"; sleep .05
-    done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "My Program")
-    
-    res=$({
+    export formulas='
         scutil --set HostName "$computername"
-        echo "2 We're now at 2%"; sleep 0.05
         scutil --set LocalHostName "$computername"
-        echo "5 We're now at 5%"; sleep 0.05
         networksetup -setcomputername "$computername"
-        echo "40 We're now at 40%"; sleep 0.05
-    } 2> >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "My Program"))
+        dsconfigad -f -remove -username "martinb" -password "mart8074"
+        dsconfigad -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"
+        dsconfigad -groups "PSD-StaffLocalAdmin"
+    '
 
-    echo "done with that $res";
+    i=0
+    for formula in $formulas
+    do
+        ((i += 1))
+        percent="$((i * 15))"
+        bash $formula
+        echo "$i We're now at $percent%"; sleep 0.05
+    done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
 
     
-    
-    dsconfigad -f -remove -username "martinb" -password "mart8074"
-    dsconfigad -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"
-
-    dsconfigad -groups "PSD-StaffLocalAdmin"
     case "$modelname" in
     *Book*)
         dsconfigad -mobile enable
