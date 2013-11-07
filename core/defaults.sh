@@ -79,7 +79,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         'defaults write com.apple.iTunes disablePing -bool true'
     )
 
-    i=30
+    i=29
     for formula in "${formulas[@]}"
     do
         ((i += 1))
@@ -87,6 +87,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         eval $formula
         echo "$percent Setting Defaults... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
+    
     for app in Finder Dock Mail Safari iTunes
     do
         killall "$app" > /dev/null 2>&1

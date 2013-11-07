@@ -152,12 +152,13 @@ finish(){
         ((i += 1))
         percent="$((i * 2))"
         eval $formula
-        echo "$percent Setting Authentication Configurations... $percent%"; sleep 0.05
+        echo "$percent Setting Authentication Configurations... $percent%"; sleep 0.1
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
 
     
-    case "$computertype" in
-    *LT*)
+    if [ "$computertype" = "LT" ]
+    then
+        echo "running laptop setup"
         ltformulas=(
             'dsconfigad -mobile enable'
             'dsconfigad -mobileconfirm disable'
@@ -170,13 +171,11 @@ finish(){
             ((i += 1))
             percent="$((i * 2))"
             eval $formula
-            echo "$percent Setting Laptop Authentication Configurations... $percent%"; sleep 0.05
+            echo "$percent Setting Laptop Authentication Configurations... $percent%"; sleep 0.1
         done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
-    ;;
-    *DT*)
+    else
         networksetup -createnetworkservice Ethernet Ethernet
-    ;;
-    esac
+    fi
     
     domain=$( dsconfigad -show | awk '/Active Directory Domain/{print $NF}' )   
 
