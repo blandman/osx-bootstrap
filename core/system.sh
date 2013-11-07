@@ -140,11 +140,12 @@ case "$modelname" in
 esac
 
 finish(){
-    {   scutil --set HostName "$computername" & echo "2 We're now at 2%"; sleep 0.05
+    res=$({
+        scutil --set HostName "$computername" & echo "2 We're now at 2%"; sleep 0.05
         scutil --set LocalHostName "$computername" & echo "5 We're now at 5%"; sleep 0.05
         networksetup -setcomputername "$computername" & echo "40 We're now at 40%"; sleep 0.05
-    } > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring system")
-    
+    } 2> >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "My Program"))
+
     echo "done with that";
     
     
