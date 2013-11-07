@@ -145,16 +145,15 @@ finish(){
         'dsconfigad -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"'
         'dsconfigad -groups "PSD-StaffLocalAdmin"'
     )
-    
+
     i=0
     for formula in "${formulas[@]}"
     do
         ((i += 1))
         percent="$((i * 15))"
-        $formula
         echo "$formula We're now at $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
-    
+
     
     case "$computertype" in
     *LT*)
