@@ -11,7 +11,7 @@ mkdir $source_dir/tmp
 mkfifo $source_dir/tmp/hpipe
 
 # create a background job which takes its input from the named pipe
-$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts" --text "Please wait..." < $source_dir/tmp/hpipe &
+$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts" --text "Updating..." < $source_dir/tmp/hpipe &
 
 # associate file descriptor 3 with that pipe and send a character through the pipe
 exec 3<> $source_dir/tmp/hpipe
@@ -34,6 +34,11 @@ else
     brew doctor
 fi
 
+exec 3>&-
+
+wait
+rm -f $source_dir/tmp/hpipe
+
 # install helpfull formulas
 export formulas='
     git
@@ -52,6 +57,7 @@ export formulas='
 i=0
 for formula in $formulas
 do
+    echo "WOO"
     tmp=`brew list | grep $formula`
     ((i += 1))
     if [[ ! $tmp ]]; then
@@ -89,12 +95,7 @@ do
             ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
             launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
         fi
-
-        echo "$i We're now at $i%"; sleep .05
     fi
+
+    echo "$i We're now at $i%"; sleep .05
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
-
-exec 3>&-
-
-wait
-rm -f $source_dir/tmp/hpipe
