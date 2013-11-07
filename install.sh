@@ -15,12 +15,12 @@ source_file=$source_dir/.osx-bootstrap
 source_file_tmp=$source_dir/.osx-bootstrap-tmp
 
 # we need to download the repo for the absolute paths
-rm -rf ~/.osx-bootstrap
+#rm -rf ~/.osx-bootstrap
 
 #if [[ ! -d ~/.osx-bootstrap ]]; then
-    echo '##### Downloading Bootstrap...'
+    #echo '##### Downloading Bootstrap...'
 	# autoupdate bootstrap file
-	git clone https://github.com/blandman/osx-bootstrap.git $source_dir
+	#git clone https://github.com/blandman/osx-bootstrap.git $source_dir
 	# hide folder
 	chflags hidden $source_dir
 #else
