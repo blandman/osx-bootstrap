@@ -143,7 +143,7 @@ finish(){
     {   scutil --set HostName "$computername" & echo "$i We're now at 2%"; sleep 0.05
         scutil --set LocalHostName "$computername" & echo "$i We're now at 5%"; sleep 0.05
         networksetup -setcomputername "$computername" & echo "$i We're now at 40%"; sleep 0.05
-    } > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "My Program"))
+    } > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "My Program")
     
     
     
