@@ -92,4 +92,6 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     do
         killall "$app" > /dev/null 2>&1
     done
+
+    sudo softwareupdate -i -a
 fi

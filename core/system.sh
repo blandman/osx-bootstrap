@@ -212,7 +212,7 @@ getConfirmation(){
 }
 
 complete() {
-    terminal-notifier -title 'Initial Configuration Successfull' -message 'Moving on to default settings'
+    terminal-notifier -title 'Initial Configuration Successfull' -message 'Moving on to default preferences'
 }
 
 echo "the computer type is: $computertype"
@@ -221,29 +221,3 @@ echo "the computer type is: $computertype"
 getOS
 getBarcode
 getName
-
-
-
-rm -f /tmp/hpipe
-mkfifo /tmp/hpipe
-
-# create a background job which takes its input from the named pipe
-$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updating" --text "Please wait..." < /tmp/hpipe &
-
-# associate file descriptor 3 with that pipe and send a character through the pipe
-exec 5<> /tmp/hpipe
-echo -n . >&5
-
-# do all of your work here
-sudo softwareupdate -i -a
-
-# update gem versions
-sudo gem update --system
-
-# now turn off the progress bar by closing file descriptor 3
-exec 5>&-
-
-# wait for all background jobs to exit
-wait
-rm -f /tmp/hpipe
-exit 0
