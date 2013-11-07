@@ -140,22 +140,22 @@ case "$modelname" in
 esac
 
 finish(){
-    export formulas='
-        scutil --set HostName "$computername"
-        scutil --set LocalHostName "$computername"
-        networksetup -setcomputername "$computername"
-        dsconfigad -f -remove -username "martinb" -password "mart8074"
-        dsconfigad -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"
-        dsconfigad -groups "PSD-StaffLocalAdmin"
-    '
+    formulas=(
+        'scutil --set HostName "$computername"'
+        'scutil --set LocalHostName "$computername"'
+        'networksetup -setcomputername "$computername"'
+        'dsconfigad -f -remove -username "martinb" -password "mart8074"'
+        'dsconfigad -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"'
+        'dsconfigad -groups "PSD-StaffLocalAdmin"'
+    )
 
     i=0
-    for formula in $formulas
+    for formula in "${formulas[@]}"
     do
         ((i += 1))
         percent="$((i * 15))"
-        echo "$formula"
-        $formula & echo "$i We're now at $percent%"; sleep 0.05
+        $formula 
+        echo "$i We're now at $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
 
     
