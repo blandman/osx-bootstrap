@@ -10,21 +10,14 @@ rm -f /tmp/hpipe
 mkfifo /tmp/hpipe
 
 # create a background job which takes its input from the named pipe
-$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "My Program" --text "Please wait..." < /tmp/hpipe &
+$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Instaling Required Scripts" --text "Please wait..." < /tmp/hpipe &
 
 # associate file descriptor 3 with that pipe and send a character through the pipe
 exec 3<> /tmp/hpipe
 echo -n . >&3
 
 # do all of your work here
-sleep 20
 
-# now turn off the progress bar by closing file descriptor 3
-exec 3>&-
-
-# wait for all background jobs to exit
-wait
-rm -f /tmp/hpipe
 
 
 # install homebrew
@@ -55,13 +48,17 @@ export formulas='
     geoip
     terminal-notifier
 '
+i = 0
 for formula in $formulas
 do
     tmp=`brew list | grep $formula`
+    i ++
     if [[ ! $tmp ]]; then
         echo ''
         echo '##### Installing Formula '$formula'...'
+        echo "$i We're now at $i%"
         brew install $formula
+
 
         if [[ $formula = 'dnsmasq' ]]; then
             # setup dnsmask
@@ -95,3 +92,8 @@ do
         fi
     fi
 done
+
+exec 3>&-
+
+wait
+rm -f /tmp/hpipe
