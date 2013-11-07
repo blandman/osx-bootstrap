@@ -140,7 +140,14 @@ case "$modelname" in
 esac
 
 finish(){
-    $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "My Program"
+    rm -f $source_dir/tmp/hpipe
+    mkdir $source_dir/tmp
+    mkfifo $source_dir/tmp/hpipe
+
+    $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "My Program" < $source_dir/tmp/hpipe &
+    exec 3<> $source_dir/tmp/hpipe
+    echo -n . >&3
+
     res=$({
         scutil --set HostName "$computername"
         echo "2 We're now at 2%"; sleep 0.05
@@ -149,8 +156,13 @@ finish(){
         networksetup -setcomputername "$computername"
         echo "40 We're now at 40%"; sleep 0.05
     } 2> >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "My Program"))
-
+    
     echo "done with that $res";
+    exec 3>&-
+
+    wait
+    rm -f $source_dir/tmp/hpipe
+
     
     
     dsconfigad -f -remove -username "martinb" -password "mart8074"
