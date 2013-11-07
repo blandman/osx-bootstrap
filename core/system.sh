@@ -151,6 +151,7 @@ finish(){
     do
         ((i += 1))
         percent="$((i * 15))"
+        echo $formula
         echo "$formula We're now at $percent%"; sleep 0.05
     done
 
