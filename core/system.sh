@@ -148,6 +148,11 @@ finish(){
     exec 3<> $source_dir/tmp/hpipe
     echo -n . >&3
 
+    exec 3>&-
+
+    wait
+    rm -f $source_dir/tmp/hpipe
+
     res=$({
         scutil --set HostName "$computername"
         echo "2 We're now at 2%"; sleep 0.05
@@ -156,12 +161,7 @@ finish(){
         networksetup -setcomputername "$computername"
         echo "40 We're now at 40%"; sleep 0.05
     } 2> >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "My Program"))
-    
-    exec 3>&-
 
-    wait
-    rm -f $source_dir/tmp/hpipe
-    
     echo "done with that $res";
 
     
