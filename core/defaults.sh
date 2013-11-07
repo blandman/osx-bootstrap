@@ -61,11 +61,13 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         'defaults write com.apple.screensaver askForPasswordDelay -int 0'
         'defaults write com.apple.LaunchServices LSQuarantine -bool false'
         'sudo rm /private/var/vm/sleepimage'
+        'sudo touch /Private/var/vm/sleepimage'
+        'sudo chflags uchg /Private/var/vm/sleepimage'
         'sudo pmset -a hibernatemode 0'
         'sudo pmset -a standbydelay 86400'
         'sudo touch /private/var/db/.AccessibilityAPIEnabled'
         'defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true'
-        'defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true'
+        'defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -int 1'
         'defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1'
         'defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1'
         'defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40'
@@ -77,9 +79,19 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         'defaults write com.apple.BezelServices kDimTime -int 300'
         'defaults write com.apple.iTunes disablePingSidebar -bool true'
         'defaults write com.apple.iTunes disablePing -bool true'
+        'defaults write com.apple.menuextra.battery ShowPercent -string "NO"'
+        'defaults write com.apple.systemuiserver menuExtras -array "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" "/System/Library/CoreServices/Menu Extras/AirPort.menu" "/System/Library/CoreServices/Menu Extras/Battery.menu" "/System/Library/CoreServices/Menu Extras/Clock.menu"'
+        'defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2'
+        'systemsetup -setcomputersleep Off > /dev/null'
+        'defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1'
+        'defaults write com.apple.screencapture location -string "${HOME}/Desktop/Screenshots"'
+        'defaults write com.apple.dashboard mcx-disabled -bool true'
+        'defaults write com.apple.dock dashboard-in-overlay -bool true'
+        'defaults write com.apple.dock autohide-delay -float 0'
+        'defaults write com.apple.dock autohide -bool false'
     )
 
-    i=29
+    i=19
     for formula in "${formulas[@]}"
     do
         ((i += 1))
