@@ -156,7 +156,7 @@ finish(){
     
     domain=$( dsconfigad -show | awk '/Active Directory Domain/{print $NF}' )   
 
-    if [[ "$domain" == “peninsula.wednet.edu” ]]; then
+    if [[ "$domain" == "peninsula.wednet.edu" ]]; then
         # Check the id of a user
         id -u adusername
         # If the check was successful...
