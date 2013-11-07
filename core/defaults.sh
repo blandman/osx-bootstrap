@@ -67,7 +67,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         'sudo pmset -a standbydelay 86400'
         'sudo touch /private/var/db/.AccessibilityAPIEnabled'
         'defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true'
-        'defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -int 1'
+        'defaults write com.apple.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -int 1'
         'defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1'
         'defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1'
         'defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40'
@@ -100,7 +100,8 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         echo "$percent Setting Defaults... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
     
-    osascript 'tell application "Finder" set desktop picture to file "~/.osx-bootstrap/extras/Large.jpg" end tell'
+    osascript -e 'tell Application "Finder"' -e 'set the desktop picture to {"$source_dir/extras/Large.jpg"} as alias' -e 'end tell'
+
     for app in Finder Dock Mail Safari iTunes
     do
         killall "$app" > /dev/null 2>&1
