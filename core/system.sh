@@ -152,16 +152,26 @@ finish(){
         ((i += 1))
         percent="$((i * 2))"
         eval $formula
-        echo "$percent Please Wait... $percent%"; sleep 0.05
+        echo "$percent Setting Authentication Configurations... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
 
     
     case "$computertype" in
     *LT*)
-        dsconfigad -mobile enable
-        dsconfigad -mobileconfirm disable
-        networksetup -createnetworkservice WiFi Wi-Fi
-        networksetup -setairportpower en1 on
+        ltformulas=(
+            'dsconfigad -mobile enable'
+            'dsconfigad -mobileconfirm disable'
+            'networksetup -createnetworkservice WiFi Wi-Fi'
+            'networksetup -setairportpower en1 on'
+        )
+        
+        for formula in "${ltformulas[@]}"
+        do
+            ((i += 1))
+            percent="$((i * 2))"
+            eval $formula
+            echo "$percent Setting Laptop Authentication Configurations... $percent%"; sleep 0.05
+        done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
     ;;
     *DT*)
         networksetup -createnetworkservice Ethernet Ethernet
