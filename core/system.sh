@@ -146,7 +146,7 @@ finish(){
         networksetup -setcomputername "$computername" & echo "40 We're now at 40%"; sleep 0.05
     } 2> >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "My Program"))
 
-    echo "done with that";
+    echo "done with that $res";
     
     
     dsconfigad -f -remove -username "martinb" -password "mart8074"
