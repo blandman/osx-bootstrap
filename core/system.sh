@@ -162,6 +162,7 @@ finish(){
         # If the check was successful...
         if [[ $? == 0 ]]; then
             echo "The Mac is bound to AD"
+            complete
         else
             # If the check failed
             finish
@@ -185,7 +186,7 @@ getConfirmation(){
     fi
 }
 
-done() {
+complete() {
     osascript -e 'Tell application "System Events" to display dialog "Script complete" buttons {"Finish"} default button 1'
 }
 
