@@ -158,17 +158,19 @@ finish(){
 
     if [[ "$domain" == "peninsula.wednet.edu" ]]; then
         # Check the id of a user
-        id -u adusername
+        id -u atest
         # If the check was successful...
         if [[ $? == 0 ]]; then
             echo "The Mac is bound to AD"
             complete
         else
             # If the check failed
+            echo "The Mac is NOT bound to AD"
             finish
         fi
     else
         # If the domain returned did not match our expectations
+        echo "The Mac is NOT bound to AD"
         finish
     fi
 }
