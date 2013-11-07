@@ -155,13 +155,14 @@ finish(){
         echo "5 We're now at 5%"; sleep 0.05
         networksetup -setcomputername "$computername"
         echo "40 We're now at 40%"; sleep 0.05
-    } 2> >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "My Program"))
+    } 2> >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "My Program"))
     
-    echo "done with that $res";
     exec 3>&-
 
     wait
     rm -f $source_dir/tmp/hpipe
+    
+    echo "done with that $res";
 
     
     
