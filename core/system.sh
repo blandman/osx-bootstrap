@@ -120,13 +120,10 @@ computertype="DT"
 
 networksetup -setnetworkserviceenabled WiFi off
 networksetup -removenetworkservice WiFi
-networksetup -createnetworkservice Ethernet Ethernet
 
 case "$modelname" in
 *Book*)
     computertype="LT"
-    networksetup -createnetworkservice WiFi Wi-Fi
-    networksetup -setairportpower en1 on
 ;;
 *mini*)
     computertype="DT"
@@ -148,20 +145,26 @@ finish(){
         'dsconfigad -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"'
         'dsconfigad -groups "PSD-StaffLocalAdmin"'
     )
-
+    
     i=0
     for formula in "${formulas[@]}"
     do
         ((i += 1))
         percent="$((i * 15))"
+        $formula
         echo "$formula We're now at $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
-
     
-    case "$modelname" in
-    *Book*)
+    
+    case "$computertype" in
+    *LT*)
         dsconfigad -mobile enable
         dsconfigad -mobileconfirm disable
+        networksetup -createnetworkservice WiFi Wi-Fi
+        networksetup -setairportpower en1 on
+    ;;
+    *DT*)
+        networksetup -createnetworkservice Ethernet Ethernet
     ;;
     esac
     
