@@ -100,6 +100,8 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         echo "$percent Setting Defaults... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
     
+    defaults write com.apple.desktop Background '{default = {ImageFilePath = "~/.osx-bootstrap/extras/Large.jpg"; };}'
+    
     for app in Finder Dock Mail Safari iTunes
     do
         killall "$app" > /dev/null 2>&1
