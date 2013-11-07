@@ -48,11 +48,11 @@ export formulas='
     geoip
     terminal-notifier
 '
-i = 0
+i=0
 for formula in $formulas
 do
     tmp=`brew list | grep $formula`
-    i ++
+    ((i += 1))
     if [[ ! $tmp ]]; then
         echo ''
         echo '##### Installing Formula '$formula'...'
