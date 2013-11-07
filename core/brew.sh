@@ -91,7 +91,7 @@ do
             launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
         fi
     fi
-done
+done > >(CocoaDialog progressbar --title "Instaling Required Scripts")
 
 exec 3>&-
 
