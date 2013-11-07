@@ -144,7 +144,9 @@ finish(){
     mkdir $source_dir/tmp
     mkfifo $source_dir/tmp/hpipe
 
-    $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "My Program" < $source_dir/tmp/hpipe &
+    for (( i = 1; i <= 100; i++ )); do
+        echo "$i We're now at $i%"; sleep .05
+    done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "My Program")
     
     res=$({
         scutil --set HostName "$computername"
