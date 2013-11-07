@@ -30,6 +30,7 @@ export formulas='
     cowsay
     redis
     geoip
+    terminal-notifier
 '
 for formula in $formulas
 do

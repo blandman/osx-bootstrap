@@ -184,6 +184,7 @@ getConfirmation(){
         getBarcode
         getName
     else
+        terminal-notifier -title 'Computer name collected' -message 'This may take a while'
         finish
     fi
 }

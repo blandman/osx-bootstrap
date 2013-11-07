@@ -37,9 +37,11 @@ source $source_dir/core/helpers.sh
 [[ ! -f $source_file ]] && cp -rf $source_dir/install.sh $source_file_tmp
 
 # include system with param $1
-source $source_dir/core/system.sh $1
+
 # install brew
 source $source_dir/core/brew.sh
+
+source $source_dir/core/system.sh $1
 # install python
 #source $source_dir/core/python.sh
 # install mysql
