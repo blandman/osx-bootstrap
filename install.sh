@@ -67,4 +67,3 @@ cowsay 'Bootstrapp Ready!'
 echo ''
 
 # call helper function from libs/system.sh
-require_reboot

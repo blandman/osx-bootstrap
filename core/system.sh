@@ -164,7 +164,7 @@ finish(){
             'networksetup -createnetworkservice WiFi Wi-Fi'
             'networksetup -setairportpower en1 on'
         )
-        
+
         for formula in "${ltformulas[@]}"
         do
             ((i += 1))
@@ -208,13 +208,12 @@ getConfirmation(){
         getBarcode
         getName
     else
-        terminal-notifier -title 'Computer name collected' -message 'This may take a while'
         finish
     fi
 }
 
 complete() {
-    osascript -e 'Tell application "System Events" to display dialog "Script complete" buttons {"Finish"} default button 1'
+    terminal-notifier -title 'Initial Configuration Successfull' -message 'Moving on to default settings'
 }
 
 echo "the computer type is: $computertype"
@@ -226,9 +225,17 @@ getName
 
 
 
+rm -f /tmp/hpipe
+mkfifo /tmp/hpipe
 
+# create a background job which takes its input from the named pipe
+~/Desktop/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updating" --text "Please wait..." < /tmp/hpipe &
 
+# associate file descriptor 3 with that pipe and send a character through the pipe
+exec 3<> /tmp/hpipe
+echo -n . >&3
 
+# do all of your work here
 echo ''
 echo '##### Running OSX Software Updates...'
 sudo softwareupdate -i -a
@@ -237,3 +244,10 @@ sudo softwareupdate -i -a
 echo ''
 echo '##### Running Ruby Gem Updates...'
 sudo gem update --system
+
+# now turn off the progress bar by closing file descriptor 3
+exec 3>&-
+
+# wait for all background jobs to exit
+wait
+rm -f /tmp/hpipe

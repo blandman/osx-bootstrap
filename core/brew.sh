@@ -59,10 +59,9 @@ for formula in $formulas
 do
     tmp=`brew list | grep $formula`
     ((i += 1))
-    percent="$((i * 10))"
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew install $formula & echo "$i We're now at $percent%"; sleep 0.05
+        brew install $formula & echo "$i Please wait... $i%"; sleep 0.05
 
 
         if [[ $formula = 'dnsmasq' ]]; then
