@@ -79,7 +79,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         'defaults write com.apple.BezelServices kDimTime -int 300'
         'defaults write com.apple.iTunes disablePingSidebar -bool true'
         'defaults write com.apple.iTunes disablePing -bool true'
-        'defaults write com.apple.menuextra.battery ShowPercent -string "NO"'
+        'defaults write com.apple.menuextra.battery ShowPercent -string "YES"'
         'defaults write com.apple.systemuiserver menuExtras -array "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" "/System/Library/CoreServices/Menu Extras/AirPort.menu" "/System/Library/CoreServices/Menu Extras/Battery.menu" "/System/Library/CoreServices/Menu Extras/Clock.menu"'
         'defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2'
         'systemsetup -setcomputersleep Off > /dev/null'
@@ -107,5 +107,13 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         killall "$app" > /dev/null 2>&1
     done
 
-    sudo softwareupdate -i -a
+    $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Performing System Updates" & sudo softwareupdate -i -a
+
+    rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
+        --text "Take a moment and customize the perferences." \
+        --informative-text "dock apps, system settings, whatever. What you see for this user is what students and staff will see. Press 'continue' when you are ready." \
+        --button1 "Continue"`
+    if [ "$rv" == "1" ]; then
+        echo "User likes Macs"
+    fi
 fi
