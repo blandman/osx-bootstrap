@@ -6,14 +6,14 @@ source $source_dir/core/helpers.sh
 
 
 # create a named pipe
-rm -f /tmp/hpipe
-mkfifo /tmp/hpipe
+rm -f tmp/hpipe
+mkfifo tmp/hpipe
 
 # create a background job which takes its input from the named pipe
-$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Instaling Required Scripts" --text "Please wait..." < /tmp/hpipe &
+$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Instaling Required Scripts" --text "Please wait..." < tmp/hpipe &
 
 # associate file descriptor 3 with that pipe and send a character through the pipe
-exec 3<> /tmp/hpipe
+exec 3<> tmp/hpipe
 echo -n . >&3
 
 # do all of your work here
@@ -96,4 +96,4 @@ done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressb
 exec 3>&-
 
 wait
-rm -f /tmp/hpipe
+rm -f tmp/hpipe
