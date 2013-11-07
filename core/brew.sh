@@ -32,7 +32,6 @@ rm -f /tmp/hpipe
 if [[ $? != 0 ]]; then
     echo ''
     echo '##### Installing Homebrew...'
-    su administrator
     ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 else
     echo ''
