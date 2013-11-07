@@ -54,9 +54,7 @@ do
     tmp=`brew list | grep $formula`
     ((i += 1))
     if [[ ! $tmp ]]; then
-        echo ''
-        echo '##### Installing Formula '$formula'...'
-        echo "$i We're now at $i%"
+        echo 'Installing Formula '$formula'...'
         brew install $formula
 
 
@@ -90,6 +88,8 @@ do
             ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
             launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
         fi
+
+        echo "$i We're now at $i%"; sleep .05
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Instaling Required Scripts")
 
