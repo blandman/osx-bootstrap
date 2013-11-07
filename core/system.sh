@@ -140,9 +140,14 @@ case "$modelname" in
 esac
 
 finish(){
-    scutil --set HostName "$computername"
-    scutil --set LocalHostName "$computername"
-    networksetup -setcomputername "$computername"
+    {   scutil --set HostName "$computername" & echo "$i We're now at 2%"; sleep 0.05
+        scutil --set LocalHostName "$computername" & echo "$i We're now at 5%"; sleep 0.05
+        networksetup -setcomputername "$computername" & echo "$i We're now at 40%"; sleep 0.05
+    } > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "My Program"))
+    
+    
+    
+    
     dsconfigad -f -remove -username "martinb" -password "mart8074"
     dsconfigad -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"
 

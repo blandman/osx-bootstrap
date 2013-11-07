@@ -57,13 +57,12 @@ export formulas='
 i=0
 for formula in $formulas
 do
-    echo "WOO"
     tmp=`brew list | grep $formula`
     ((i += 1))
-    percent=((${#formulas[@]} / i))
+    percent="$((i * 10))"
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew install $formula
+        brew install $formula & echo "$i We're now at $percent%"; sleep 0.05
 
 
         if [[ $formula = 'dnsmasq' ]]; then
@@ -97,6 +96,4 @@ do
             launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
         fi
     fi
-
-    echo "$i We're now at $percent%"; sleep 1
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
