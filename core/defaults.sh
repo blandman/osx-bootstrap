@@ -89,9 +89,10 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         'defaults write com.apple.dock dashboard-in-overlay -bool true'
         'defaults write com.apple.dock autohide-delay -float 0'
         'defaults write com.apple.dock autohide -bool false'
+        'sudo defaults delete /Library/Preferences/com.apple.loginwindow autoLoginUser'
     )
 
-    i=19
+    i=15
     for formula in "${formulas[@]}"
     do
         ((i += 1))
@@ -111,7 +112,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
 
     rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
         --text "Take a moment and customize the perferences." \
-        --informative-text "dock apps, system settings, whatever. What you see for this user is what students and staff will see. Press 'continue' when you are ready." \
+        --informative-text "Dock apps, system prefrences, etc. What you see for this user is what students and staff will see. Press 'continue' when you are ready." \
         --button1 "Continue"`
     if [ "$rv" == "1" ]; then
         echo "User likes Macs"
