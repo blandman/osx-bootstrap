@@ -242,7 +242,7 @@ sudo softwareupdate -i -a
 # update gem versions
 echo ''
 echo '##### Running Ruby Gem Updates...'
-sudo gem update --system
+#sudo gem update --system
 
 # now turn off the progress bar by closing file descriptor 3
 exec 3>&-
