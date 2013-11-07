@@ -91,7 +91,7 @@ do
             launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
         fi
     fi
-done > >(CocoaDialog progressbar --title "Instaling Required Scripts")
+done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Instaling Required Scripts")
 
 exec 3>&-
 
