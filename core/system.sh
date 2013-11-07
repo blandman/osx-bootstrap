@@ -152,8 +152,8 @@ finish(){
         ((i += 1))
         percent="$((i * 15))"
         eval $formula
-        echo "$formula We're now at $percent%"; sleep 0.05
-    done
+        echo "$percent We're now at $percent%"; sleep 0.05
+    done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
 
     
     case "$computertype" in
