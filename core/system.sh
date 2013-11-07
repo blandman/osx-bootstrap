@@ -150,9 +150,9 @@ finish(){
     for formula in "${formulas[@]}"
     do
         ((i += 1))
-        percent="$((i * 15))"
+        percent="$((i * 2))"
         eval $formula
-        echo "$percent We're now at $percent%"; sleep 0.05
+        echo "$percent Please Wait... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
 
     
