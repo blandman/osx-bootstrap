@@ -171,7 +171,7 @@ finish(){
             ((i += 1))
             percent="$((i * 2))"
             eval $formula
-            echo "$percent Setting Laptop Authentication Configurations... $percent%"; sleep 0.1
+            echo "$percent Setting Laptop Authentication Configurations... $percent%"; sleep 0.5
         done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
     else
         networksetup -createnetworkservice Ethernet Ethernet
@@ -231,21 +231,17 @@ mkfifo /tmp/hpipe
 $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updating" --text "Please wait..." < /tmp/hpipe &
 
 # associate file descriptor 3 with that pipe and send a character through the pipe
-exec 3<> /tmp/hpipe
-echo -n . >&3
+exec 5<> /tmp/hpipe
+echo -n . >&5
 
 # do all of your work here
-echo ''
-echo '##### Running OSX Software Updates...'
 sudo softwareupdate -i -a
 
 # update gem versions
-echo ''
-echo '##### Running Ruby Gem Updates...'
 sudo gem update --system
 
 # now turn off the progress bar by closing file descriptor 3
-exec 3>&-
+exec 5>&-
 
 # wait for all background jobs to exit
 wait
