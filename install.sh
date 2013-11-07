@@ -15,6 +15,7 @@ source_file=$source_dir/.osx-bootstrap
 source_file_tmp=$source_dir/.osx-bootstrap-tmp
 
 # we need to download the repo for the absolute paths
+rm -rf ~/.osx-bootstrap
 if [[ ! -d ~/.osx-bootstrap ]]; then
     echo '##### Downloading Bootstrap...'
 	# autoupdate bootstrap file
