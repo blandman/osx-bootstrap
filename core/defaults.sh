@@ -101,7 +101,14 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         echo "$percent Setting Defaults... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
     
-    osascript -e 'tell Application "Finder"' -e 'set the desktop picture to {"~/.osx-bootstrap/extras/Large.jpg"} as alias' -e 'end tell'
+    cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
+
+    osascript -e 'tell Application "Finder"' -e 'tell application "System Events"
+     tell current desktop
+     set picture rotation to 0
+     set picture to file "Mac OS X:Library:Desktop Pictures:Large.jpg"
+     end tell
+    end tell' -e 'end tell'
 
     for app in Finder Dock Mail Safari iTunes
     do
