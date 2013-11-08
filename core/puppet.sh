@@ -17,7 +17,7 @@ echo "mkdir  /private/tmp/$start_date ; cd /private/tmp/$start_date"
 mkdir  /private/tmp/$start_date ; cd /private/tmp/$start_date
  
 echo "curl -O http://downloads.puppetlabs.com/mac/facter-$facter_version.dmg"
-curl -O http://downloads.puppetlabs.com/mac/facter-$facter_version.dmg
+curl -O http://downloads.puppetlabs.com/mac/puppet-$puppet_version.dmg
 
 echo "curl -O http://downloads.puppetlabs.com/mac/facter-$facter_version.dmg"
 curl -O http://downloads.puppetlabs.com/mac/facter-$facter_version.dmg
@@ -27,6 +27,7 @@ curl -O http://downloads.puppetlabs.com/mac/hiera-$hiera_version.dmg
  
 echo "hdiutil attach facter-$facter_version.dmg"
 hdiutil attach facter-$facter_version.dmg
+
 echo "hdiutil attach puppet-$puppet_version.dmg"
 hdiutil attach puppet-$puppet_version.dmg
 
