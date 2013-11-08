@@ -74,22 +74,19 @@ fi
 echo "Creating /etc/puppet/puppet.conf - needs sudo"
  
 sudo sh -c "echo \"[main]
-pluginsync = false
-server = vmnocwspuppet01.psd401.net
- 
-[master]
-vardir = /var/lib/puppet
-libdir = $vardir/lib
-ssldir = /etc/puppet/ssl
+logdir=/var/lib/puppet
+ssldir=/var/lib/puppet/ssl
+rundir=/var/run/puppet
+factpath=$vardir/lib/factor
+templatedir=$confdir/templates
+server=vmnocwspuppet01.psd401.net
+report=true
 certname = `hostname | tr [:upper:] [:lower:]`.psd401.net
+
+[master]
 ssl_client_header = SSL_CLIENT_S_IN
 ssl_client_verify_header = SSL_CLIENT_VERIFY
- 
-[agent]
-vardir = /var/lib/puppet
-libdir = $vardir/lib
-ssldir = /etc/puppet/ssl
-certname = `hostname | tr [:upper:] [:lower:]`.psd401.net
+
 \" > /etc/puppet/puppet.conf"
  
 echo "Changing permissions - needs sudo"

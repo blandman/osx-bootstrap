@@ -108,7 +108,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         killall "$app" > /dev/null 2>&1
     done
 
-    $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Performing System Updates" & sudo softwareupdate -i -a
+    sudo softwareupdate -i -a >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Performing System Updates")
 
     rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
         --text "Take a moment and customize the perferences." \
