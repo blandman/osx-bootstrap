@@ -56,7 +56,7 @@ exec 3<> /tmp/hpipe
 echo -n . >&3
 
 # do all of your work here
-timeout 1m sudo gem install puppet
+sudo gem install puppet
 
 # now turn off the progress bar by closing file descriptor 3
 exec 3>&-
