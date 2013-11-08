@@ -43,8 +43,39 @@ mkdir  /private/tmp/$start_date ; cd /private/tmp/$start_date
 
 #echo "sudo installer -package /Volumes/hiera-$hiera_version/puppet-$hiera_version.pkg -target $target_volume"
 #sudo installer -package /Volumes/hiera-$hiera_version/hiera-$hiera_version.pkg -target "$target_volume"
+rm -f /tmp/hpipe
+mkfifo /tmp/hpipe
 
+# create a background job which takes its input from the named pipe
+$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Puppet" --text "Installing Puppet, Please wait..." < /tmp/hpipe &
+
+# associate file descriptor 3 with that pipe and send a character through the pipe
+exec 3<> /tmp/hpipe
+echo -n . >&3
+
+# do all of your work here
 timeout 1m sudo gem install puppet
+
+# now turn off the progress bar by closing file descriptor 3
+exec 3>&-
+
+# wait for all background jobs to exit
+wait
+rm -f /tmp/hpipe
+
+
+rm -f /tmp/hpipe
+mkfifo /tmp/hpipe
+
+# create a background job which takes its input from the named pipe
+$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Puppet" --text "Configuring Puppet, Please wait..." < /tmp/hpipe &
+
+# associate file descriptor 3 with that pipe and send a character through the pipe
+exec 3<> /tmp/hpipe
+echo -n . >&3
+
+# do all of your work here
+
  
 echo "Creating directories in /var and /etc - needs sudo"
 sudo mkdir -p /var/lib/puppet
@@ -101,3 +132,10 @@ hdiutil detach /Volumes/puppet-$puppet_version
  
 cd /private/tmp
 rm -rf ./$start_date
+
+# now turn off the progress bar by closing file descriptor 3
+exec 3>&-
+
+# wait for all background jobs to exit
+wait
+rm -f /tmp/hpipe
