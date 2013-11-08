@@ -44,7 +44,7 @@ mkdir  /private/tmp/$start_date ; cd /private/tmp/$start_date
 #echo "sudo installer -package /Volumes/hiera-$hiera_version/puppet-$hiera_version.pkg -target $target_volume"
 #sudo installer -package /Volumes/hiera-$hiera_version/hiera-$hiera_version.pkg -target "$target_volume"
 
-sudo gem install puppet
+timeout 1m sudo gem install puppet
  
 echo "Creating directories in /var and /etc - needs sudo"
 sudo mkdir -p /var/lib/puppet
@@ -72,7 +72,7 @@ if [ $(dscl . -list /Users | grep puppet | wc -l)  = 0 ]; then
 fi
  
 echo "Creating /etc/puppet/puppet.conf - needs sudo"
- 
+
 sudo sh -c "echo \"[main]
 logdir=/var/lib/puppet
 ssldir=/var/lib/puppet/ssl
