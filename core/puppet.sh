@@ -2,22 +2,6 @@
 
 source_dir=~/.osx-bootstrap
 
-set -o errtrace
-set -o errexit
- 
- 
-facter_version=$1
-puppet_version=$2
-hiera_version=$3
-target_volume=$4
- 
-echo "About to install Facter $facter_version and Puppet $puppet_version on target volume $target_volume"
- 
-start_date=$(date "+%Y-%m-%d%:%H:%M:%S")
- 
-echo "mkdir  /private/tmp/$start_date ; cd /private/tmp/$start_date"
-mkdir  /private/tmp/$start_date ; cd /private/tmp/$start_date
- 
 #echo "curl -O http://downloads.puppetlabs.com/mac/facter-$facter_version.dmg"
 #curl -O http://downloads.puppetlabs.com/mac/puppet-$puppet_version.dmg
 
@@ -77,32 +61,6 @@ exec 3<> /tmp/hpipe
 echo -n . >&3
 
 # do all of your work here
-
- 
-echo "Creating directories in /var and /etc - needs sudo"
-sudo mkdir -p /var/lib/puppet
-sudo mkdir -p /etc/puppet/manifests
-sudo mkdir -p /etc/puppet/ssl
- 
- 
- 
-if [ $(dscl . -list /Groups | grep puppet | wc -l)  = 0 ]; then
-  echo "Creating a puppet group - needs sudo"
-  max_gid=$(dscl . -list /Groups gid | awk '{print $2}' | sort -ug | tail -1) 
-  new_gid=$((max_gid+1))
-  sudo dscl . create /Groups/puppet
-  sudo dscl . create /Groups/puppet gid $new_gid
-fi
- 
- 
-if [ $(dscl . -list /Users | grep puppet | wc -l)  = 0 ]; then
-  echo "Creating a puppet user - needs sudo"
-  max_uid=$(dscl . -list /Users UniqueID | awk '{print $2}' | sort -ug | tail -1)
-  new_uid=$((max_uid+1))
-  sudo dscl . create /Users/puppet
-  sudo dscl . create /Users/puppet UniqueID $new_uid
-  sudo dscl . -create /Users/puppet PrimaryGroupID $new_gid
-fi
  
 echo "Creating /etc/puppet/puppet.conf - needs sudo"
 
@@ -121,19 +79,6 @@ ssl_client_header = SSL_CLIENT_S_IN
 ssl_client_verify_header = SSL_CLIENT_VERIFY
 
 \" > /etc/puppet/puppet.conf"
- 
-echo "Changing permissions - needs sudo"
- 
-sudo chown -R puppet:puppet  /var/lib/puppet
-sudo chown -R puppet:puppet  /etc/puppet
- 
-echo "Cleaning up"
- 
-hdiutil detach /Volumes/facter-$facter_version
-hdiutil detach /Volumes/puppet-$puppet_version
- 
-cd /private/tmp
-rm -rf ./$start_date
 
 # now turn off the progress bar by closing file descriptor 3
 exec 3>&-
