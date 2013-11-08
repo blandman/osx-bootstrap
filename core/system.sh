@@ -141,7 +141,7 @@ finish(){
         'scutil --set HostName "$computername"'
         'scutil --set LocalHostName "$computername"'
         'networksetup -setcomputername "$computername"'
-        'dsconfigad -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"'
+        'dsconfigad -force -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"'
         'dsconfigad -groups "PSD-StaffLocalAdmin"'
     )
 
