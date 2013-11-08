@@ -188,7 +188,6 @@ finish(){
         else
             # If the check failed
             echo "The Mac is NOT bound to AD"
-            dsconfigad -f -remove -username "martinb" -password "mart8074"
             finish
         fi
     else
@@ -200,7 +199,6 @@ finish(){
             --button1 "Retry" --button2 "Cancel"`
         if [ "$rv" == "1" ]; then
             echo "User said OK"
-            dsconfigad -f -remove -username "martinb" -password "mart8074"
             finish
         elif [ "$rv" == "2" ]; then
             echo "Canceling"
@@ -210,7 +208,6 @@ finish(){
                 --informative-text "When the computer is bound, press continue." \
                 --button1 "Continue"`
             if [ "$rv1" == "1" ]; then
-                dsconfigad -f -remove -username "martinb" -password "mart8074"
                 finish
             fi
             exit
