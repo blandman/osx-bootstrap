@@ -81,13 +81,13 @@ server = vmnocwspuppet01.psd401.net
 vardir = /var/lib/puppet
 libdir = $vardir/lib
 ssldir = /etc/puppet/ssl
-certname = `hostname | tr [:upper:] [:lower:]`
+certname = `hostname | tr [:upper:] [:lower:]`.psd401.net
  
 [agent]
 vardir = /var/lib/puppet
 libdir = $vardir/lib
 ssldir = /etc/puppet/ssl
-certname = `hostname | tr [:upper:] [:lower:]`
+certname = `hostname | tr [:upper:] [:lower:]`.psd401.net
 \" > /etc/puppet/puppet.conf"
  
 echo "Changing permissions - needs sudo"
