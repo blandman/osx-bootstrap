@@ -54,8 +54,8 @@ source $source_dir/core/system.sh $1
 #source $source_dir/core/zsh.sh
 # install defaults
 source $source_dir/core/defaults.sh
-# install github
-#source $source_dir/core/github.sh
+# install puppet
+source $source_dir/core/puppet.sh
 # place your extras here
 
 # create bootstrap file
