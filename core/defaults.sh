@@ -1,6 +1,5 @@
 # define helpers
 source_dir=~/.osx-bootstrap
-source $source_dir/core/helpers.sh
 require_sudo
 if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     echo ''

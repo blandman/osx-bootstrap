@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
- 
+
+source_dir=~/.osx-bootstrap
+
 set -o errtrace
 set -o errexit
  
