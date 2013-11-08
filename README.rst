@@ -14,6 +14,8 @@ Requirements
 #. Install Xcode from the Mac App Store
 #. **10.8**: Start Xcode, open ``Xcode > Preferences > Downloads`` and install the **Command Line Tools**
 #. **10.9**: Open a terminal and run ``xcode-select --install``
+#. Remove all network interfaces
+#. Set autologin to administrator
 
 Install Bootstrap
 -----------------

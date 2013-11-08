@@ -194,7 +194,25 @@ finish(){
     else
         # If the domain returned did not match our expectations
         echo "The Mac is NOT bound to AD"
-        finish
+        rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "Woops" \
+            --informative-text "It looks like there was a problem joining to the PSD domain. Retry?" \
+            --no-newline --float
+            --button1 "Retry" --button2 "Cancel"`
+        if [ "$rv" == "1" ]; then
+            echo "User said OK"
+            finish
+        elif [ "$rv" == "2" ]; then
+            echo "Canceling"
+            echo "The Mac is NOT bound to AD"
+            rv1=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
+                --text "You will need to manually join this computer to the domain. Please Do so now." \
+                --informative-text "When the computer is bound, press continue." \
+                --button1 "Continue"`
+            if [ "$rv1" == "1" ]; then
+                finish
+            fi
+            exit
+        fi
     fi
 }
 
