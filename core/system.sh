@@ -235,7 +235,12 @@ complete() {
 
 echo "the computer type is: $computertype"
 
-
-getOS
-getBarcode
-getName
+rv1=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
+    --text "Ready?" \
+    --informative-text "You will be prompted to provide this computers barcode and future location." \
+    --button1 "Im ready!!"`
+if [ "$rv1" == "1" ]; then
+    getOS
+    getBarcode
+    getName
+fi
