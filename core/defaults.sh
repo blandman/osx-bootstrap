@@ -102,12 +102,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     
     cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
 
-    osascript -e 'tell Application "Finder"' -e 'tell application "System Events"
-     tell current desktop
-     set picture rotation to 0
-     set picture to file "Mac OS X:Library:Desktop Pictures:Large.jpg"
-     end tell
-    end tell' -e 'end tell'
+    osascript -e 'tell Application "Finder"' -e 'set desktop picture to {"Macintosh HD:Library:Desktop Pictures:Large.jpg"} as alias' -e 'end tell'
 
     for app in Finder Dock Mail Safari iTunes
     do
