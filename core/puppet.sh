@@ -82,6 +82,8 @@ vardir = /var/lib/puppet
 libdir = $vardir/lib
 ssldir = /etc/puppet/ssl
 certname = `hostname | tr [:upper:] [:lower:]`.psd401.net
+ssl_client_header = SSL_CLIENT_S_IN
+ssl_client_verify_header = SSL_CLIENT_VERIFY
  
 [agent]
 vardir = /var/lib/puppet
