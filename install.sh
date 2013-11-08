@@ -55,7 +55,7 @@ source $source_dir/core/system.sh $1
 # install defaults
 source $source_dir/core/defaults.sh
 # install puppet
-source $source_dir/core/puppet.sh
+source $source_dir/core/puppet.sh 1.7.3 3.3.1 1.2.1 /
 # place your extras here
 
 # create bootstrap file

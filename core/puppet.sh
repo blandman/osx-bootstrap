@@ -6,7 +6,7 @@ set -o errexit
  
 facter_version=$1
 puppet_version=$2
-puppet_version=$3
+hiera_version=$3
 target_volume=$4
  
 echo "About to install Facter $facter_version and Puppet $puppet_version on target volume $target_volume"
@@ -22,13 +22,16 @@ curl -O http://downloads.puppetlabs.com/mac/facter-$facter_version.dmg
 echo "curl -O http://downloads.puppetlabs.com/mac/facter-$facter_version.dmg"
 curl -O http://downloads.puppetlabs.com/mac/facter-$facter_version.dmg
 
-echo "curl -O http://downloads.puppetlabs.com/mac/puppet-$puppet_version.dmg"
-curl -O http://downloads.puppetlabs.com/mac/puppet-$puppet_version.dmg
+echo "curl -O http://downloads.puppetlabs.com/mac/hiera-$hiera_version.dmg"
+curl -O http://downloads.puppetlabs.com/mac/hiera-$hiera_version.dmg
  
 echo "hdiutil attach facter-$facter_version.dmg"
 hdiutil attach facter-$facter_version.dmg
 echo "hdiutil attach puppet-$puppet_version.dmg"
 hdiutil attach puppet-$puppet_version.dmg
+
+echo "hdiutil attach hiera-$hiera_version.dmg"
+hdiutil attach hiera-$hiera_version.dmg
  
  
 echo "sudo installer -package /Volumes/facter-$facter_version/facter-$facter_version.pkg -target $target_volume"
@@ -36,6 +39,9 @@ sudo installer -package /Volumes/facter-$facter_version/facter-$facter_version.p
  
 echo "sudo installer -package /Volumes/puppet-$puppet_version/puppet-$puppet_version.pkg -target $target_volume"
 sudo installer -package /Volumes/puppet-$puppet_version/puppet-$puppet_version.pkg -target "$target_volume"
+
+echo "sudo installer -package /Volumes/hiera-$hiera_version/puppet-$hiera_version.pkg -target $target_volume"
+sudo installer -package /Volumes/hiera-$hiera_version/hiera-$hiera_version.pkg -target "$target_volume"
  
 echo "Creating directories in /var and /etc - needs sudo"
 sudo mkdir -p /var/lib/puppet
