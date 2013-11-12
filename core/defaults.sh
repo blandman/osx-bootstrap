@@ -59,8 +59,6 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         'defaults write NSGlobalDomain com.apple.screensaver askForPassword -int 0'
         'defaults write NSGlobalDomain com.apple.screensaver askForPasswordDelay -int 0'
         'defaults write NSGlobalDomain com.apple.LaunchServices LSQuarantine -bool false'
-        'sudo rm /private/var/vm/sleepimage'
-        'sudo touch /Private/var/vm/sleepimage'
         'sudo pmset -a hibernatemode 0'
         'sudo pmset -a standbydelay 86400'
         'sudo touch /private/var/db/.AccessibilityAPIEnabled'
@@ -135,7 +133,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         --button1 "Continue"`
     if [ "$rv" == "1" ]; then
         sudo rm -rf /System/Library/User\ Template/English.lproj/Library
-        sudo rsync /Users/administrator/Library/* /System/Library/User\ Template/English.lproj/Library/
+        sudo rsync -r /Users/administrator/Library/* /System/Library/User\ Template/English.lproj/Library/
         sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychain
         sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State
         sudo rm -rf /System/Library/User\ Template/English.lproj/Desktop/*

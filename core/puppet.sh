@@ -62,7 +62,7 @@ echo -n . >&3
 
 # do all of your work here
  
-echo "Creating /etc/puppet/puppet.conf - needs sudo"
+echo "Creating /etc/puppet/puppet.conf"
 
 mkdir /etc/puppet/
 
@@ -81,6 +81,17 @@ ssl_client_header = SSL_CLIENT_S_IN
 ssl_client_verify_header = SSL_CLIENT_VERIFY
 
 \" > /etc/puppet/puppet.conf"
+
+sudo puppet resource group puppet ensure=present
+
+sudo puppet resource user puppet ensure=present gid=puppet shell='/sbin/nologin'
+
+sudo cp $source_dir/extras/com.puppetlabs.puppet.plist /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+
+sudo chown root:wheel /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+sudo chmod 644 /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+
+sudo launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist
 
 # now turn off the progress bar by closing file descriptor 3
 exec 3>&-
