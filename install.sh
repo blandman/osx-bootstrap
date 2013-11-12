@@ -55,15 +55,10 @@ source $source_dir/core/system.sh $1
 # install defaults
 source $source_dir/core/defaults.sh
 # install puppet
-source $source_dir/core/puppet.sh 1.7.3 3.3.1 1.2.1 /
+source $source_dir/core/puppet.sh
 # place your extras here
 
 # create bootstrap file
 [[ ! -f $source_file ]] && mv $source_file_tmp $source_file && chmod +x $source_file
 
 # done
-echo ''
-cowsay 'Bootstrapp Ready!'
-echo ''
-
-# call helper function from libs/system.sh

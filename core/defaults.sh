@@ -114,32 +114,36 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     echo -n . >&3
 
     sudo softwareupdate -i -a
-    
+
     exec 3>&-
     
     rm -f /tmp/hpipe
     
-
     rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
-        --text "Take a moment and customize the perferences." \
-        --informative-text "Dock apps, system prefrences, etc. What you see for this user is what students and staff will see. Press 'continue' when you are ready." \
-        --button1 "Continue"`
+        --text "Is this a "shared" computer (e.g Lab) or a "single use" computer (e.g teaching station)?" \
+        --button1 "Shared" --button2 "Single use"`
     if [ "$rv" == "1" ]; then
-        rm -f /tmp/hpipe
-        mkfifo /tmp/hpipe
+        rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
+            --text "Take a moment and customize the perferences." \
+            --informative-text "Dock apps, system prefrences, etc. What you see for this user is what students and staff will see. Press 'continue' when you are ready." \
+            --button1 "Continue"`
+        if [ "$rv" == "1" ]; then
+            rm -f /tmp/hpipe
+            mkfifo /tmp/hpipe
 
-        $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations to ..." < /tmp/hpipe &
-        exec 3<> /tmp/hpipe
-        echo -n . >&3
+            $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations to ..." < /tmp/hpipe &
+            exec 3<> /tmp/hpipe
+            echo -n . >&3
 
-        sudo rm -rf /System/Library/User\ Template/English.lproj/Library
-        sudo rsync -r /Users/administrator/Library/* /System/Library/User\ Template/English.lproj/Library/
-        sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychain
-        sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State
-        sudo rm -rf /System/Library/User\ Template/English.lproj/Desktop/*
+            sudo rm -rf /System/Library/User\ Template/English.lproj/Library
+            sudo rsync -r /Users/administrator/Library/* /System/Library/User\ Template/English.lproj/Library/
+            sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychain
+            sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State
+            sudo rm -rf /System/Library/User\ Template/English.lproj/Desktop/*
 
-        exec 3>&-
-        
-        rm -f /tmp/hpipe
+            exec 3>&-
+            
+            rm -f /tmp/hpipe
+        fi
     fi
 fi
