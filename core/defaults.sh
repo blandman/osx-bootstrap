@@ -126,7 +126,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     exec 3>&-
 
     # wait for all background jobs to exit
-    wait
+    
     rm -f /tmp/hpipe
     
 
