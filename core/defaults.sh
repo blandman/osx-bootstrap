@@ -109,20 +109,13 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     rm -f /tmp/hpipe
     mkfifo /tmp/hpipe
 
-    # create a background job which takes its input from the named pipe
     $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updates" --text "Please wait..." < /tmp/hpipe &
-
-    # associate file descriptor 3 with that pipe and send a character through the pipe
     exec 3<> /tmp/hpipe
     echo -n . >&3
 
-    # do all of your work here
     sudo softwareupdate -i -a
-
-    # now turn off the progress bar by closing file descriptor 3
+    
     exec 3>&-
-
-    # wait for all background jobs to exit
     
     rm -f /tmp/hpipe
     
@@ -132,10 +125,21 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         --informative-text "Dock apps, system prefrences, etc. What you see for this user is what students and staff will see. Press 'continue' when you are ready." \
         --button1 "Continue"`
     if [ "$rv" == "1" ]; then
+        rm -f /tmp/hpipe
+        mkfifo /tmp/hpipe
+
+        $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations to ..." < /tmp/hpipe &
+        exec 3<> /tmp/hpipe
+        echo -n . >&3
+
         sudo rm -rf /System/Library/User\ Template/English.lproj/Library
         sudo rsync -r /Users/administrator/Library/* /System/Library/User\ Template/English.lproj/Library/
         sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychain
         sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State
         sudo rm -rf /System/Library/User\ Template/English.lproj/Desktop/*
+
+        exec 3>&-
+        
+        rm -f /tmp/hpipe
     fi
 fi

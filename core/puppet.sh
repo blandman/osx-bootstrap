@@ -61,7 +61,7 @@ exec 3<> /tmp/hpipe
 echo -n . >&3
 
 # do all of your work here
- 
+
 echo "Creating /etc/puppet/puppet.conf"
 
 mkdir /etc/puppet/
