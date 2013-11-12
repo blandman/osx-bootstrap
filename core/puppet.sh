@@ -64,6 +64,8 @@ echo -n . >&3
  
 echo "Creating /etc/puppet/puppet.conf - needs sudo"
 
+mkdir /etc/puppet/
+
 sudo sh -c "echo \"[main]
 logdir=/var/lib/puppet
 ssldir=/var/lib/puppet/ssl
