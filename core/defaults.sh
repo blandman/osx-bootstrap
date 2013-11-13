@@ -121,7 +121,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     rm -f /tmp/hpipe
     
     rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
-        --text "Is this a "shared" computer (e.g Lab) or a "single use" computer (e.g teaching station)?" \
+        --text "Is this a 'shared' computer (e.g Lab) or a 'single use' computer (e.g teaching station)?" \
         --button1 "Shared" --button2 "Single use"`
     if [ "$rv" == "1" ]; then
         rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
@@ -131,7 +131,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         if [ "$rv" == "1" ]; then
             rm -f /tmp/hpipe
             mkfifo /tmp/hpipe
-            
+
             $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations to ..." < /tmp/hpipe &
             exec 3<> /tmp/hpipe
             echo -n . >&3

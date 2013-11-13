@@ -64,7 +64,7 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew install $formula & echo "$i Installing $formula... $i%"; sleep 0.05
+        brew install $formula & echo "$i Installing $formula  $i%"; sleep 0.05
 
 
         if [[ $formula = 'dnsmasq' ]]; then
@@ -115,7 +115,7 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew cask install $formula & echo "$i Installing $formula... $i%"; sleep 0.05
+        brew cask install $formula & echo "$i Installing $formula  $i%"; sleep 0.05
 
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
