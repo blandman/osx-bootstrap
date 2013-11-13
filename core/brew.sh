@@ -34,6 +34,8 @@ else
     brew doctor
 fi
 
+brew tap phinze/homebrew-cask
+
 exec 3>&-
 
 wait
@@ -53,6 +55,7 @@ export formulas='
     redis
     geoip
     terminal-notifier
+    brew-cask
 '
 i=0
 for formula in $formulas
@@ -61,7 +64,7 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew install $formula & echo "$i Please wait... $i%"; sleep 0.05
+        brew install $formula & echo "$i Installing $formula... $i%"; sleep 0.05
 
 
         if [[ $formula = 'dnsmasq' ]]; then
@@ -85,6 +88,10 @@ do
             # scutil --dns
         fi
 
+        if [[ $formula = 'brew-cask' ]]; then 
+            export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+        fi
+
         if [[ $formula = 'nginx' ]]; then
             ln -sfv /usr/local/opt/nginx/*.plist ~/Library/LaunchAgents
             launchctl load ~/Library/LaunchAgents/homebrew.mxcl.nginx.plist
@@ -94,5 +101,21 @@ do
             ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
             launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
         fi
+    fi
+done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
+
+export caskformulas='
+    google-chrome
+    firefox
+    geektool
+'
+for formula in $caskformulas
+do
+    tmp=`brew list | grep $formula`
+    ((i += 1))
+    if [[ ! $tmp ]]; then
+        echo 'Installing Formula '$formula'...'
+        brew cask install $formula & echo "$i Installing $formula... $i%"; sleep 0.05
+
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")

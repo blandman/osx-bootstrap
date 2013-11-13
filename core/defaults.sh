@@ -135,15 +135,15 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
             exec 3<> /tmp/hpipe
             echo -n . >&3
 
-            sudo rm -rf /System/Library/User\ Template/English.lproj/Library
+            sudo rm -rf /System/Library/User\ Template/English.lproj/Library/*
             sudo rsync -r /Users/administrator/Library/* /System/Library/User\ Template/English.lproj/Library/
-            sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychain
-            sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State
-            sudo rm -rf /System/Library/User\ Template/English.lproj/Desktop/*
 
             exec 3>&-
             
             rm -f /tmp/hpipe
         fi
     fi
+
+    sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychain
+    sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State
 fi
