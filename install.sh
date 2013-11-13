@@ -31,7 +31,7 @@ source_file_tmp=$source_dir/.osx-bootstrap-tmp
 #fi
 
 # define helpers
-source $source_dir/core/helpers.sh >> /Users/administrator/Desktop/imagelog.txt
+source $source_dir/core/helpers.sh > /Users/administrator/Desktop/imagelog.txt
 
 # create bootstrap tmp
 [[ ! -f $source_file ]] && cp -rf $source_dir/install.sh $source_file_tmp
@@ -41,7 +41,7 @@ source $source_dir/core/helpers.sh >> /Users/administrator/Desktop/imagelog.txt
 # install brew
 #source $source_dir/core/brew.sh
 
-source $source_dir/core/system.sh $1 >> /Users/administrator/Desktop/imagelog.txt
+source $source_dir/core/system.sh $1 > /Users/administrator/Desktop/imagelog.txt
 # install python
 #source $source_dir/core/python.sh
 # install mysql
@@ -53,9 +53,9 @@ source $source_dir/core/system.sh $1 >> /Users/administrator/Desktop/imagelog.tx
 # install zsh
 #source $source_dir/core/zsh.sh
 # install defaults
-source $source_dir/core/defaults.sh >> /Users/administrator/Desktop/imagelog.txt
+source $source_dir/core/defaults.sh > /Users/administrator/Desktop/imagelog.txt
 # install puppet
-source $source_dir/core/puppet.sh >> /Users/administrator/Desktop/imagelog.txt
+source $source_dir/core/puppet.sh > /Users/administrator/Desktop/imagelog.txt
 # place your extras here
 
 # create bootstrap file
