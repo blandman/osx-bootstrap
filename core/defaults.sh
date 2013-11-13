@@ -99,8 +99,9 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     
     cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
 
-    osascript -e 'tell Application "Finder"' -e 'set desktop picture to {"Macintosh HD:Library:Desktop Pictures:Large.jpg"} as alias' -e 'end tell'
-
+    osascript -e 'tell Application "Finder" to set desktop picture to {"Macintosh HD:Library:Desktop Pictures:Large.jpg"} as alias'
+    osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/GeekTool.app", hidden:false}'
+    
     for app in Finder Dock Mail Safari iTunes
     do
         killall "$app" > /dev/null 2>&1
@@ -130,7 +131,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         if [ "$rv" == "1" ]; then
             rm -f /tmp/hpipe
             mkfifo /tmp/hpipe
-
+            
             $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations to ..." < /tmp/hpipe &
             exec 3<> /tmp/hpipe
             echo -n . >&3
