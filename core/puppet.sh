@@ -40,7 +40,7 @@ exec 3<> /tmp/hpipe
 echo -n . >&3
 
 # do all of your work here
-sudo gem install puppet
+sudo gem install puppet > /Users/administrator/Desktop/imagelog.txt
 
 # now turn off the progress bar by closing file descriptor 3
 exec 3>&-
@@ -82,20 +82,18 @@ ssl_client_verify_header = SSL_CLIENT_VERIFY
 
 \" > /etc/puppet/puppet.conf"
 
-sudo puppet resource group puppet ensure=present
+sudo puppet resource group puppet ensure=present > /Users/administrator/Desktop/imagelog.txt
 
-sudo puppet resource user puppet ensure=present gid=puppet shell='/sbin/nologin'
+sudo puppet resource user puppet ensure=present gid=puppet shell='/sbin/nologin' > /Users/administrator/Desktop/imagelog.txt
 
-sudo cp $source_dir/extras/com.puppetlabs.puppet.plist /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+sudo cp $source_dir/extras/com.puppetlabs.puppet.plist /Library/LaunchDaemons/com.puppetlabs.puppet.plist > /Users/administrator/Desktop/imagelog.txt
 
-sudo chown root:wheel /Library/LaunchDaemons/com.puppetlabs.puppet.plist
-sudo chmod 644 /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+sudo chown root:wheel /Library/LaunchDaemons/com.puppetlabs.puppet.plist > /Users/administrator/Desktop/imagelog.txt
+sudo chmod 644 /Library/LaunchDaemons/com.puppetlabs.puppet.plist > /Users/administrator/Desktop/imagelog.txt
 
-sudo launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+sudo launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist > /Users/administrator/Desktop/imagelog.txt
 
-# now turn off the progress bar by closing file descriptor 3
 exec 3>&-
 
-# wait for all background jobs to exit
 wait
 rm -f /tmp/hpipe

@@ -118,8 +118,8 @@ modelname=$(system_profiler SPHardwareDataType | grep "Model Identifier" | cut -
 
 computertype="DT"
 
-networksetup -setnetworkserviceenabled WiFi off
-networksetup -removenetworkservice WiFi
+networksetup -setnetworkserviceenabled WiFi off > /Users/administrator/Desktop/imagelog.txt
+networksetup -removenetworkservice WiFi > /Users/administrator/Desktop/imagelog.txt
 
 case "$modelname" in
 *Book*)

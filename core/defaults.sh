@@ -93,7 +93,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     do
         ((i += 1))
         percent="$((i))"
-        eval $formula
+        eval $formula > /Users/administrator/Desktop/imagelog.txt
         echo "$percent Setting Defaults... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
     
@@ -114,7 +114,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     exec 3<> /tmp/hpipe
     echo -n . >&3
 
-    sudo softwareupdate -i -a
+    sudo softwareupdate -i -a > /Users/administrator/Desktop/imagelog.txt
 
     exec 3>&-
     
