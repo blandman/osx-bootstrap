@@ -93,15 +93,20 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     do
         ((i += 1))
         percent="$((i))"
-        eval $formula > /Users/administrator/Desktop/imagelog.txt
+        echo " ------------- $percent"
+        eval $formula
         echo "$percent Setting Defaults... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
     
     cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
 
+    echo "-------- Setting Background"
     osascript -e 'tell Application "Finder" to set desktop picture to {"Macintosh HD:Library:Desktop Pictures:Large.jpg"} as alias'
+    echo "-------- Setting Startup Apps"
     osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/GeekTool.app", hidden:false}'
     
+
+    echo "-------- Killing Finder and dock"
     for app in Finder Dock Mail Safari iTunes
     do
         killall "$app" > /dev/null 2>&1
@@ -110,11 +115,12 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     rm -f /tmp/hpipe
     mkfifo /tmp/hpipe
 
+    echo "-------- Software updates"
     $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updates" --text "Please wait..." < /tmp/hpipe &
     exec 3<> /tmp/hpipe
     echo -n . >&3
 
-    sudo softwareupdate -i -a > /Users/administrator/Desktop/imagelog.txt
+    sudo softwareupdate -i -a
 
     exec 3>&-
     
@@ -132,7 +138,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
             rm -f /tmp/hpipe
             mkfifo /tmp/hpipe
 
-            $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations to ..." < /tmp/hpipe &
+            $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations ..." < /tmp/hpipe &
             exec 3<> /tmp/hpipe
             echo -n . >&3
 

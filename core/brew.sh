@@ -26,15 +26,15 @@ echo -n . >&3
 if [[ $? != 0 ]]; then
     echo ''
     echo '##### Installing Homebrew...'
-    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)" > /Users/administrator/Desktop/imagelog.txt
+    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 else
     echo ''
     echo '##### Running Homebrew Updates...'
-    brew update > /Users/administrator/Desktop/imagelog.txt
-    brew doctor > /Users/administrator/Desktop/imagelog.txt
+    brew update
+    brew doctor
 fi
 
-brew tap phinze/homebrew-cask > /Users/administrator/Desktop/imagelog.txt
+brew tap phinze/homebrew-cask
 
 exec 3>&-
 
@@ -64,7 +64,7 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew install $formula > /Users/administrator/Desktop/imagelog.txt & echo "$i Installing $formula  $i%"; sleep 0.05
+        brew install $formula & echo "$i Installing $formula  $i%"; sleep 0.05
 
 
         if [[ $formula = 'dnsmasq' ]]; then
@@ -89,7 +89,7 @@ do
         fi
 
         if [[ $formula = 'brew-cask' ]]; then 
-            export HOMEBREW_CASK_OPTS="--appdir=/Applications" > /Users/administrator/Desktop/imagelog.txt
+            export HOMEBREW_CASK_OPTS="--appdir=/Applications"
         fi
 
         if [[ $formula = 'nginx' ]]; then
@@ -115,7 +115,7 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew cask install $formula > /Users/administrator/Desktop/imagelog.txt & echo "$i Installing $formula  $i%"; sleep 0.05
+        brew cask install $formula & echo "$i Installing $formula  $i%"; sleep 0.05
 
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
