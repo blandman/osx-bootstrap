@@ -98,7 +98,7 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew cask install $formula & echo "$i Installing $formula  $i%"; sleep 0.05
+        brew cask install $formula --force & echo "$i Installing $formula  $i%"; sleep 0.05
 
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
