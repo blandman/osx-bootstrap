@@ -66,7 +66,7 @@ do
         echo 'Installing Formula '$formula'...'
         brew install $formula >> $source_dir/log.txt
         echo "$i Installing $formula  $i%"; sleep 0.05
-
+        
 
         if [[ $formula = 'dnsmasq' ]]; then
             # setup dnsmask

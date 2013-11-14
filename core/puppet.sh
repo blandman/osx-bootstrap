@@ -82,16 +82,16 @@ ssl_client_verify_header = SSL_CLIENT_VERIFY
 
 \" > /etc/puppet/puppet.conf"
 
-sudo puppet resource group puppet ensure=present > /Users/administrator/Desktop/imagelog.txt
+sudo puppet resource group puppet ensure=present
 
-sudo puppet resource user puppet ensure=present gid=puppet shell='/sbin/nologin' > /Users/administrator/Desktop/imagelog.txt
+sudo puppet resource user puppet ensure=present gid=puppet shell='/sbin/nologin'
 
-sudo cp $source_dir/extras/com.puppetlabs.puppet.plist /Library/LaunchDaemons/com.puppetlabs.puppet.plist > /Users/administrator/Desktop/imagelog.txt
+sudo cp $source_dir/extras/com.puppetlabs.puppet.plist /Library/LaunchDaemons/
 
-sudo chown root:wheel /Library/LaunchDaemons/com.puppetlabs.puppet.plist > /Users/administrator/Desktop/imagelog.txt
-sudo chmod 644 /Library/LaunchDaemons/com.puppetlabs.puppet.plist > /Users/administrator/Desktop/imagelog.txt
+sudo chown root:wheel /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+sudo chmod 644 /Library/LaunchDaemons/com.puppetlabs.puppet.plist
 
-sudo launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist > /Users/administrator/Desktop/imagelog.txt
+sudo launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist
 
 exec 3>&-
 

@@ -99,7 +99,6 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     do
         ((i += 1))
         percent="$((i))"
-        echo " ------------- $percent"
         eval $formula
         echo "$percent Setting Defaults... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
@@ -125,8 +124,8 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updates" --text "Please wait..." < /tmp/hpipe &
     exec 3<> /tmp/hpipe
     echo -n . >&3
-
-    sudo softwareupdate -i -a
+    
+    sudo softwareupdate -i -a > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updates" --text "Please wait..." < /tmp/hpipe &)
 
     exec 3>&-
     
