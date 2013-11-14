@@ -39,7 +39,7 @@ source $source_dir/core/helpers.sh
 # include system with param $1
 
 # install brew
-#source $source_dir/core/brew.sh
+sudo bash $source_dir/core/brew.sh  
 
 source $source_dir/core/system.sh $1
 # install python
