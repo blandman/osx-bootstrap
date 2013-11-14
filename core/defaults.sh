@@ -99,13 +99,13 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     
 
     i=15
-    for formula in "${formulas[@]}"
-    do
-        ((i += 1))
-        percent="$((i))"
+    #for formula in "${formulas[@]}"
+    #do
+    #    ((i += 1))
+    #    percent="$((i))"
         #eval $formula
-        echo "$percent $formula $percent%"; sleep 0.1
-    done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
+    #    echo "$percent $formula $percent%"; sleep 0.1
+    #done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
     # Enabling subpixel font rendering on non-Apple LCDs
     defaults write NSGlobalDomain AppleFontSmoothing -int 2
     # Enable full keyboard access for all controls
@@ -131,7 +131,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     # Expanding the save panel by default
     defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
     # Disable smooth scrolling
-    defaults write NSGlobalDomain NSScrollAnimationEnabled -bool false
+    defaults write NSGlobalDomain NSScrollAnimationEnabled -bool true
     # Disable Resume system-wide
     defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
     # Display ASCII control characters using caret notation in standard text views
@@ -141,7 +141,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     # Expand print panel by default
     defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
     # Disable “natural” (Lion-style) scrolling
-    defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+    defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
     # FINDER
     # Show dotfiles in Finder
@@ -168,6 +168,8 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     defaults write com.apple.dashboard mcx-disabled -boolean YES
     # Show the ~/Library folder
     chflags nohidden ~/Library
+
+    sudo defaults write NSGlobalDomain com.apple.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag 1
 
     # DESKTOP & DOCK
     # Enable snap-to-grid for icons on the desktop and in other icon views
@@ -256,6 +258,8 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     # Disable the Ping sidebar in iTunes
     defaults write com.apple.iTunes disablePingSidebar -bool true
     defaults write com.apple.iTunes disablePing -bool true
+    defaults write com.apple.dock persistent-apps -array
+    defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Safari.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
     defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
     defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
     
