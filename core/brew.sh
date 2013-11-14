@@ -26,7 +26,7 @@ echo -n . >&3
 if [[ $? != 0 ]]; then
     echo ''
     echo '##### Installing Homebrew...'
-    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)" < <(echo 1)
 else
     echo ''
     echo '##### Running Homebrew Updates...'
@@ -64,7 +64,8 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew install $formula & echo "$i Installing $formula  $i%"; sleep 0.05
+        brew install $formula >> $source_dir/log.txt
+        echo "$i Installing $formula  $i%"; sleep 0.05
 
 
         if [[ $formula = 'dnsmasq' ]]; then
