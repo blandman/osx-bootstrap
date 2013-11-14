@@ -72,21 +72,6 @@ do
             # setup dnsmask
             mkdir /usr/local/etc/
             cp -rf $source_dir/templates/dnsmasq.conf /usr/local/etc
-
-            # sudo is required for dnsmasq
-            require_sudo
-
-            # setup dnsmask daemon
-            sudo ln -sfv /usr/local/opt/dnsmasq/*.plist /Library/LaunchDaemons
-            sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
-            sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
-
-            # setup resolver
-            sudo mkdir -p /etc/resolver
-            sudo cp -rf $source_dir/templates/dev /etc/resolver
-            # empty cache
-            dscacheutil -flushcache
-            # scutil --dns
         fi
 
         if [[ $formula = 'brew-cask' ]]; then 
