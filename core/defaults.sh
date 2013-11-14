@@ -169,7 +169,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     # Show the ~/Library folder
     chflags nohidden ~/Library
 
-    sudo defaults write NSGlobalDomain com.apple.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag 1
+    defaults write com.apple.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag 1
 
     # DESKTOP & DOCK
     # Enable snap-to-grid for icons on the desktop and in other icon views
@@ -187,8 +187,6 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     # Make Dock icons of hidden applications translucent
     defaults write com.apple.dock showhidden -bool true
     # Add a spacer to the left and right side of the Dock (where the applications are)
-    defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
-    defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
     # Wipe all (default) app icons from the Dock
     # defaults write com.apple.dock persistent-apps -array
     # Reset Launchpad
@@ -260,8 +258,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     defaults write com.apple.iTunes disablePing -bool true
     defaults write com.apple.dock persistent-apps -array
     defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Safari.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-    defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
-    defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
+
     
     cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
 
