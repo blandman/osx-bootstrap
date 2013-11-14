@@ -26,7 +26,9 @@ echo -n . >&3
 if [[ $? != 0 ]]; then
     echo ''
     echo '##### Installing Homebrew...'
+    exit
     ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)" < <(echo 1)
+    sudo su
 else
     echo ''
     echo '##### Running Homebrew Updates...'
