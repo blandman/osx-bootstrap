@@ -104,7 +104,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         ((i += 1))
         percent="$((i))"
         eval $formula
-        echo "$percent Setting Defaults... $percent%"; sleep 0.05
+        echo "$percent $formula $percent%"; sleep 0.1
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
 
     defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
@@ -122,9 +122,6 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         killall "$app" > /dev/null 2>&1
     done
 
-    echo "-------- Setting Background"
-    osascript -e 'tell Application "Finder" to set desktop picture to {"Macintosh HD:Library:Desktop Pictures:Large.jpg"} as alias'
-
     rm -f /tmp/hpipe
     mkfifo /tmp/hpipe
 
@@ -133,7 +130,10 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     exec 3<> /tmp/hpipe
     echo -n . >&3
 
-    sudo softwareupdate -i -a > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updates" --text "Please wait..." < /tmp/hpipe &)
+    sudo softwareupdate -i -a
+
+    echo "-------- Setting Background"
+    osascript -e 'tell Application "Finder" to set desktop picture to {"Macintosh HD:Library:Desktop Pictures:Large.jpg"} as alias'
 
     exec 3>&-
     
