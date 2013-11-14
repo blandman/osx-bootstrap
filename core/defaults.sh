@@ -34,7 +34,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         'defaults write NSGlobalDomain com.apple.desktopservices DSDontWriteNetworkStores -bool true'
         '/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist'
         '/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist'
-        'defaults write NSGlobalDomain com.apple.dock tilesize -int 36'
+        'defaults write NSGlobalDomain com.apple.dock tilesize -int 28'
         'defaults write NSGlobalDomain com.apple.dock expose-animation-duration -float 0.5'
         'defaults write NSGlobalDomain com.apple.dock "expose-group-by-app" -bool true'
         'defaults write NSGlobalDomain com.apple.dock itunes-notifications -bool true'
@@ -92,7 +92,11 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         'sudo mkdir -p /etc/resolver'
         'sudo cp -rf $source_dir/templates/dev /etc/resolver'
         'dscacheutil -flushcache'
+        'sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName'
+        'defaults write com.apple.dock persistent-apps -array'
+        'defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Safari.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"'
     )
+    
 
     i=15
     for formula in "${formulas[@]}"
@@ -102,11 +106,12 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         eval $formula
         echo "$percent Setting Defaults... $percent%"; sleep 0.05
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
+
+    defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
+    defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
     
     cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
 
-    echo "-------- Setting Background"
-    osascript -e 'tell Application "Finder" to set desktop picture to {"Macintosh HD:Library:Desktop Pictures:Large.jpg"} as alias'
     echo "-------- Setting Startup Apps"
     osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/GeekTool.app", hidden:false}'
     
@@ -117,6 +122,9 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         killall "$app" > /dev/null 2>&1
     done
 
+    echo "-------- Setting Background"
+    osascript -e 'tell Application "Finder" to set desktop picture to {"Macintosh HD:Library:Desktop Pictures:Large.jpg"} as alias'
+
     rm -f /tmp/hpipe
     mkfifo /tmp/hpipe
 
@@ -124,7 +132,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updates" --text "Please wait..." < /tmp/hpipe &
     exec 3<> /tmp/hpipe
     echo -n . >&3
-    
+
     sudo softwareupdate -i -a > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Software Updates" --text "Please wait..." < /tmp/hpipe &)
 
     exec 3>&-

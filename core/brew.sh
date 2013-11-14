@@ -66,16 +66,12 @@ do
         echo 'Installing Formula '$formula'...'
         brew install $formula >> $source_dir/log.txt
         echo "$i Installing $formula  $i%"; sleep 0.05
-        
+
 
         if [[ $formula = 'dnsmasq' ]]; then
             # setup dnsmask
             mkdir /usr/local/etc/
             cp -rf $source_dir/templates/dnsmasq.conf /usr/local/etc
-        fi
-
-        if [[ $formula = 'brew-cask' ]]; then 
-            export HOMEBREW_CASK_OPTS="--appdir=/Applications"
         fi
 
         if [[ $formula = 'nginx' ]]; then
@@ -95,6 +91,7 @@ export caskformulas='
     firefox
     geektool
 '
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 for formula in $caskformulas
 do
     tmp=`brew list | grep $formula`

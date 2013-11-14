@@ -41,8 +41,6 @@ source $source_dir/core/helpers.sh
 # install brew
 
 source $source_dir/core/system.sh $1
-
-bash $source_dir/core/brew.sh
 # install python
 #source $source_dir/core/python.sh
 # install mysql
