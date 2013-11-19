@@ -45,7 +45,7 @@ rm -f $source_dir/tmp/hpipe
 export formulas='
     bash-completion
     ssh-copy-id
-    wget
+    wget 
     dnsmasq
     nginx
     cowsay
@@ -80,22 +80,5 @@ do
             ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
             launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
         fi
-    fi
-done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
-
-export caskformulas='
-    google-chrome
-    firefox
-    geektool
-'
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-for formula in $caskformulas
-do
-    tmp=`brew list | grep $formula`
-    ((i += 1))
-    if [[ ! $tmp ]]; then
-        echo 'Installing Formula '$formula'...'
-        brew cask install $formula --force & echo "$i Installing $formula  $i%"; sleep 0.05
-
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")

@@ -4,6 +4,25 @@
 source_dir=~/.osx-bootstrap
 source $source_dir/core/helpers.sh
 
+
+export caskformulas='
+    google-chrome
+    firefox
+    geektool
+'
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+for formula in $caskformulas
+do
+    tmp=`brew list | grep $formula`
+    ((i += 1))
+    if [[ ! $tmp ]]; then
+        echo 'Installing Formula '$formula'...'
+        brew cask install $formula --force & echo "$i Installing $formula  $i%"; sleep 0.05
+
+    fi
+done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
+
+
 # require sudo password
 require_sudo
 
