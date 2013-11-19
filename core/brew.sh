@@ -43,9 +43,6 @@ rm -f $source_dir/tmp/hpipe
 
 # install helpfull formulas
 export formulas='
-    git
-    git-flow
-    hub
     bash-completion
     ssh-copy-id
     wget
@@ -64,7 +61,7 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew install $formula >> $source_dir/log.txt
+        brew install $formula
         echo "$i Installing $formula  $i%"; sleep 0.05
 
 

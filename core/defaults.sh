@@ -258,10 +258,10 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     defaults write com.apple.iTunes disablePing -bool true
     defaults write com.apple.dock persistent-apps -array
     defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Safari.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-
+    
     
     cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
-
+    
     echo "-------- Setting Startup Apps"
     osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/GeekTool.app", hidden:false}'
     
