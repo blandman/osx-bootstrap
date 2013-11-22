@@ -54,7 +54,7 @@ source $source_dir/core/system.sh $1
 # install defaults
 source $source_dir/core/defaults.sh
 # install puppet
-source $source_dir/core/puppet.sh
+#source $source_dir/core/puppet.sh
 
 echo "DONE!"
 # place your extras here

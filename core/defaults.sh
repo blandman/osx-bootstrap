@@ -314,6 +314,6 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
         fi
     fi
 
-    sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychain
-    sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State
+    sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychains/
+    sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State/
 fi
