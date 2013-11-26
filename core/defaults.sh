@@ -99,13 +99,13 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     
 
     i=15
-    #for formula in "${formulas[@]}"
-    #do
-    #    ((i += 1))
-    #    percent="$((i))"
-        #eval $formula
-    #    echo "$percent $formula $percent%"; sleep 0.1
-    #done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
+    for formula in "${formulas[@]}"
+    do
+        ((i += 1))
+        percent="$((i))"
+        eval $formula
+        echo "$percent $formula $percent%"; sleep 0.1
+    done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
     # Enabling subpixel font rendering on non-Apple LCDs
     defaults write NSGlobalDomain AppleFontSmoothing -int 2
     # Enable full keyboard access for all controls
@@ -260,11 +260,9 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Safari.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
     
     sudo defaults delete /Library/Preferences/com.apple.loginwindow autoLoginUser
-
-    cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
     
     echo "-------- Setting Startup Apps"
-    osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/GeekTool.app", hidden:false}'
+    osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/GeekTool.app/Contents/PlugIns/GeekTool.prefPane/Contents/Resources/Geektool Helper.app", hidden:false}'
     
 
     echo "-------- Killing Finder and dock"
@@ -288,6 +286,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     rm -f /tmp/hpipe
 
     echo "-------- Setting Background"
+    cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
     osascript -e 'tell Application "Finder" to set desktop picture to {"Macintosh HD:Library:Desktop Pictures:Large.jpg"} as alias'
     
     rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
@@ -302,7 +301,7 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
             
         fi
     fi
-    
+
     rm -f /tmp/hpipe
     mkfifo /tmp/hpipe
 
