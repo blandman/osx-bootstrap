@@ -259,7 +259,8 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
     defaults write com.apple.dock persistent-apps -array
     defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Safari.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
     
-    
+    sudo defaults delete /Library/Preferences/com.apple.loginwindow autoLoginUser
+
     cp $source_dir/extras/Large.jpg /Library/Desktop\ Pictures/
     
     echo "-------- Setting Startup Apps"
@@ -298,21 +299,23 @@ if [[ ! -f ~/.osx-bootstrap/.osx-bootstrap ]]; then
             --informative-text "Dock apps, system prefrences, etc. What you see for this user is what students and staff will see. Press 'continue' when you are ready." \
             --button1 "Continue"`
         if [ "$rv" == "1" ]; then
-            rm -f /tmp/hpipe
-            mkfifo /tmp/hpipe
-
-            $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations ..." < /tmp/hpipe &
-            exec 3<> /tmp/hpipe
-            echo -n . >&3
-
-            sudo rm -rf /System/Library/User\ Template/English.lproj/Library/*
-            sudo rsync -r /Users/administrator/Library/* /System/Library/User\ Template/English.lproj/Library/
-
-            exec 3>&-
             
-            rm -f /tmp/hpipe
         fi
     fi
+    
+    rm -f /tmp/hpipe
+    mkfifo /tmp/hpipe
+
+    $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations ..." < /tmp/hpipe &
+    exec 3<> /tmp/hpipe
+    echo -n . >&3
+
+    sudo rm -rf /System/Library/User\ Template/English.lproj/Library/*
+    sudo rsync -r /Users/administrator/Library/* /System/Library/User\ Template/English.lproj/Library/
+
+    exec 3>&-
+
+    rm -f /tmp/hpipe
 
     sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychains/
     sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State/
