@@ -103,7 +103,7 @@ do
     ((i += 1))
     percent="$((i))"
     eval $formula
-    echo "$percent $formula $percent%"; sleep 0.1
+    echo "$percent $formula $percent%"
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Defaulting System")
 # Enabling subpixel font rendering on non-Apple LCDs
 defaults write NSGlobalDomain AppleFontSmoothing -int 2
@@ -301,19 +301,18 @@ if [ "$rv" == "1" ]; then
     fi
 fi
 
-rm -f /tmp/hpipe
 mkfifo /tmp/hpipe
 
 $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations ..." < /tmp/hpipe &
 exec 3<> /tmp/hpipe
 echo -n . >&3
 
-sudo rm -rf /System/Library/User\ Template/English.lproj/Library/*
-sudo rsync -r /Users/administrator/Library/* /System/Library/User\ Template/English.lproj/Library/
+    
+sudo rsync -r /Users/administrator/Library/ /System/Library/User\ Template/English.lproj/Library/
+
+sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychains/
+sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State/
 
 exec 3>&-
 
 rm -f /tmp/hpipe
-
-sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychains/
-sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State/
