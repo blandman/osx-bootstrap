@@ -119,17 +119,17 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 12
 defaults write NSGlobalDomain AppleShowScrollBars -string “Always”
 # Set a blazingly fast keyboard repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 0
-# Disable window animations
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+# Enable window animations
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool true
 # I don't even... (disabling auto-correct)
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+#defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 # Disable automatic termination of inactive apps
-defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
+#defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 # Save to disk (not to iCloud) by default
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 # Expanding the save panel by default
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-# Disable smooth scrolling
+# Enable smooth scrolling
 defaults write NSGlobalDomain NSScrollAnimationEnabled -bool true
 # Disable Resume system-wide
 defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
@@ -144,7 +144,7 @@ defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
 # FINDER
 # Show dotfiles in Finder
-defaults write com.apple.finder AppleShowAllFiles TRUE
+defaults write com.apple.finder AppleShowAllFiles FALSE
 # Setting Trash to empty securely by default
 defaults write com.apple.finder EmptyTrashSecurely -bool true
 # Disable the warning when changing a file extension
@@ -154,11 +154,11 @@ defaults write com.apple.Finder FXPreferredViewStyle -string "Nlsv"
 # When performing a search, search the current folder by default
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 # Show absolute path in finder's title bar
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
+#defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
 # Allow text selection in Quick Look/Preview
 defaults write com.apple.finder QLEnableTextSelection -bool true
 # Show Path bar in Finder
-defaults write com.apple.finder ShowPathbar -bool true
+#defaults write com.apple.finder ShowPathbar -bool true
 # Show Status bar in Finder
 defaults write com.apple.finder ShowStatusBar -bool true
 # Avoiding creating stupid .DS_Store files on network volumes
@@ -166,7 +166,7 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 # Disable dashboard
 defaults write com.apple.dashboard mcx-disabled -boolean YES
 # Show the ~/Library folder
-chflags nohidden ~/Library
+#chflags nohidden ~/Library
 
 defaults write com.apple.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag 1
 
@@ -221,7 +221,7 @@ hash tmutil &> /dev/null && sudo tmutil disablelocal
 
 # SECURITY
 # Requiring password immediately after sleep or screen saver begins
-defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPassword -int 0
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 # Disable the “Are you sure you want to open this application?” dialog
 defaults write com.apple.LaunchServices LSQuarantine -bool false
@@ -308,7 +308,7 @@ if [ "$rv" == "1" ]; then
 
         sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychains/
         sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State/
-        
+
         exec 3>&-
 
         rm -f /tmp/hpipe
