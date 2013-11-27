@@ -62,4 +62,12 @@ echo "DONE!"
 # create bootstrap file
 [[ ! -f $source_file ]] && mv $source_file_tmp $source_file && chmod +x $source_file
 
+rv1=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
+    --text "Image Complete!" \
+    --informative-text "The image is ready to go, lets reboot, then log in as yourself and confirm that everything looks good." \
+    --button1 "Reboot"`
+if [ "$rv1" == "1" ]; then
+    sudo reboot
+fi
+
 # done

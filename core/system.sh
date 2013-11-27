@@ -28,8 +28,6 @@ require_sudo
 
 
 
-
-
 getName(){
     name=$(osascript -e 'Tell application "System Events" to choose from list {"Artondale Elementary School", "Community Transition Program", "Discovery Elementary School", "Educational Service Center", "Evergreen Elementary School", "Gig Harbor High School", "Goodman Middle School", "Harbor Heights Elementary School", "Harbor Ridge Middle School", "Henderson Bay High School", "Key Peninsula Middle School", "Kopachuck Middle School", "Maintenance & Warehouse", "Minter Elementary School", "Peninsula High School", "Purdy Elementary School", "Technical Services", "Transportation", "Vaughn Elementary School", "Voyager Elementary School"} with title "Your Building" with prompt "Please Select your building"')
 
@@ -137,8 +135,12 @@ modelname=$(system_profiler SPHardwareDataType | grep "Model Identifier" | cut -
 
 computertype="DT"
 
-networksetup -setnetworkserviceenabled WiFi off
-networksetup -removenetworkservice WiFi
+sudo mv /var/db/NetworkInterfaces.xml /var/db/NetworkInterfaces.old
+sudo mv /var/db/SystemConfiguration/preferences.xml /var/db/SystemConfiguration/preferences.old
+sudo mv /var/db/SystemConfiguration/com.apple.airport.preferences.xml /var/db/SystemConfiguration/com.apple.airport.preferences.old
+
+sudo networksetup -setnetworkserviceenabled WiFi off
+sudo networksetup -removenetworkservice WiFi
 
 case "$modelname" in
 *Book*)
