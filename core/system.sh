@@ -179,7 +179,7 @@ finish(){
     then
         echo "running laptop setup"
         ltformulas=(
-            'rm -rf /Library/Preferences/SystemConfiguration/preferences.xml'
+            'sudo rm -rf /Library/Preferences/SystemConfiguration'
             'dsconfigad -mobile enable'
             'dsconfigad -mobileconfirm disable'
             'networksetup -createnetworkservice WiFi Wi-Fi'
@@ -216,7 +216,6 @@ finish(){
         echo "The Mac is NOT bound to AD"
         rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "Woops" \
             --informative-text "It looks like there was a problem joining to the PSD domain. Retry?" \
-            --no-newline --float
             --button1 "Retry" --button2 "Cancel"`
         if [ "$rv" == "1" ]; then
             echo "User said OK"
