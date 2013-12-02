@@ -156,17 +156,11 @@ esac
 
 finish(){
     formulas=(
-        'rm -rf /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist'
-        'rm -rf /Library/Preferences/SystemConfiguration/preferences.plist'
-        'rm -rf /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist'
-        'rm -rf /Library/Preferences/SystemConfiguration/com.apple.nat.plist'
         'scutil --set HostName "$computername"'
         'scutil --set LocalHostName "$computername"'
         'networksetup -setcomputername "$computername"'
         'dsconfigad -force -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"'
         'dsconfigad -groups "PSD-StaffLocalAdmin"'
-        'sudo networksetup -setnetworkserviceenabled WiFi off'
-        'sudo networksetup -removenetworkservice WiFi'
     )
 
     i=0
@@ -185,9 +179,6 @@ finish(){
         ltformulas=(
             'dsconfigad -mobile enable'
             'dsconfigad -mobileconfirm disable'
-            'networksetup -createnetworkservice Wi-Fi Wi-Fi'
-            'networksetup -setairportpower en1 on'
-            'networksetup -addpreferredwirelessnetworkatindex WiFi psd-secure 0 NONE'
         )
 
         for formula in "${ltformulas[@]}"

@@ -297,21 +297,22 @@ if [ "$rv" == "1" ]; then
         --informative-text "Dock apps, system prefrences, etc. What you see for this user is what students and staff will see. Press 'continue' when you are ready." \
         --button1 "Continue"`
     if [ "$rv" == "1" ]; then
-        mkfifo /tmp/hpipe
-
-        $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations ..." < /tmp/hpipe &
-        exec 3<> /tmp/hpipe
-        echo -n . >&3
-
-            
-        sudo rsync -r /Users/administrator/Library/ /System/Library/User\ Template/English.lproj/Library/
-
-        sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychains/
-        sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State/
-
-        exec 3>&-
-
-        rm -f /tmp/hpipe
+        
     fi
 fi
 
+mkfifo /tmp/hpipe
+
+$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations ..." < /tmp/hpipe &
+exec 3<> /tmp/hpipe
+echo -n . >&3
+
+    
+sudo rsync -r /Users/administrator/Library/ /System/Library/User\ Template/English.lproj/Library/
+
+sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Keychains/
+sudo rm -rf /System/Library/User\ Template/English.lproj/Library/Saved\ Application\ State/
+
+exec 3>&-
+
+rm -f /tmp/hpipe
