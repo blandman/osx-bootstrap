@@ -179,11 +179,11 @@ finish(){
     then
         echo "running laptop setup"
         ltformulas=(
-            'sudo rm -rf /Library/Preferences/SystemConfiguration'
             'dsconfigad -mobile enable'
             'dsconfigad -mobileconfirm disable'
             'networksetup -createnetworkservice WiFi Wi-Fi'
             'networksetup -setairportpower en1 on'
+            'sudo networksetup -setnetworkserviceenabled WiFi on'
         )
 
         for formula in "${ltformulas[@]}"
