@@ -161,6 +161,8 @@ finish(){
         'networksetup -setcomputername "$computername"'
         'dsconfigad -force -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"'
         'dsconfigad -groups "PSD-StaffLocalAdmin"'
+        'sudo networksetup -setnetworkserviceenabled WiFi off'
+        'sudo networksetup -removenetworkservice WiFi'
     )
 
     i=0
@@ -177,8 +179,11 @@ finish(){
     then
         echo "running laptop setup"
         ltformulas=(
+            'rm -rf /Library/Preferences/SystemConfiguration/preferences.xml'
             'dsconfigad -mobile enable'
             'dsconfigad -mobileconfirm disable'
+            'networksetup -createnetworkservice WiFi Wi-Fi'
+            'networksetup -setairportpower en1 on'
         )
 
         for formula in "${ltformulas[@]}"
