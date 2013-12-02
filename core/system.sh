@@ -181,8 +181,8 @@ finish(){
         ltformulas=(
             'dsconfigad -mobile enable'
             'dsconfigad -mobileconfirm disable'
-            'networksetup -createnetworkservice Wi-Fi Wi-Fi'
-            'networksetup -setairportpower en1 on'
+            'sudo networksetup -createnetworkservice Wi-Fi Wi-Fi'
+            'sudo networksetup -setairportpower en1 on'
             'sudo networksetup -setnetworkserviceenabled Wi-Fi on'
         )
 
