@@ -262,7 +262,12 @@ sudo defaults delete /Library/Preferences/com.apple.loginwindow autoLoginUser
 
 echo "-------- Setting Startup Apps"
 osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/GeekTool.app/Contents/PlugIns/GeekTool.prefPane/Contents/Resources/Geektool Helper.app", hidden:false}'
-
+osascript -e 'tell application "System Events" 
+        get the name of every login item 
+        if login item "Finish Image" exists then 
+            delete login item "Finish Image" 
+        end if 
+    end tell'
 
 echo "-------- Killing Finder and dock"
 for app in Finder Dock Mail Safari iTunes

@@ -22,6 +22,9 @@ do
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
 
+wget "https://staticfiles.psd401.net/psimages/HPDrivers.pkg"
+sudo installer -store -pkg "HPDrivers.pkg" -target /
+
 
 # require sudo password
 require_sudo
@@ -180,8 +183,8 @@ finish(){
             'dsconfigad -mobile enable'
             'dsconfigad -mobileconfirm disable'
             'sudo networksetup -createnetworkservice Wi-Fi Wi-Fi'
-            'sudo networksetup -setairportpower en1 on'
             'sudo networksetup -setnetworkserviceenabled Wi-Fi on'
+            'sudo networksetup -setairportnetwork en0 psd-secure'
         )
 
         for formula in "${ltformulas[@]}"

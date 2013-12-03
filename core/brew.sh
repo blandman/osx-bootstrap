@@ -19,8 +19,7 @@ echo -n . >&3
 
 # do all of your work here
 
-wget "https://staticfiles.psd401.net/psimages/HPDrivers.pkg"
-sudo installer -store -pkg "HPDrivers.pkg" -target /
+
 
 
 # install homebrew
