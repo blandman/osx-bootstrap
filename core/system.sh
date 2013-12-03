@@ -161,8 +161,6 @@ finish(){
         'networksetup -setcomputername "$computername"'
         'dsconfigad -force -add peninsula.wednet.edu -computer "$computername" -username "martinb" -password "mart8074" -ou "OU=Computers,OU=""$computerlocation"",OU=PSD,DC=Peninsula,DC=wednet,DC=edu"'
         'dsconfigad -groups "PSD-StaffLocalAdmin"'
-        'sudo networksetup -setnetworkserviceenabled Wi-Fi off'
-        'sudo networksetup -removenetworkservice Wi-Fi'
     )
 
     i=0
@@ -195,6 +193,8 @@ finish(){
         done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Configuring System")
     else
         networksetup -createnetworkservice Ethernet Ethernet
+        sudo networksetup -setnetworkserviceenabled Wi-Fi off
+        sudo networksetup -removenetworkservice Wi-Fi
     fi
     
     domain=$( dsconfigad -show | awk '/Active Directory Domain/{print $NF}' )   
