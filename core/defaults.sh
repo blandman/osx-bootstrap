@@ -302,7 +302,7 @@ if [ "$rv" == "1" ]; then
         --informative-text "Dock apps, system prefrences, etc. What you see for this user is what students and staff will see. Press 'continue' when you are ready." \
         --button1 "Continue"`
     if [ "$rv" == "1" ]; then
-        
+        dsconfigad -mobile disable
         mkfifo /tmp/hpipe
 
         $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Customizing Profiles" --text "Copying configurations ..." < /tmp/hpipe &
