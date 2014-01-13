@@ -24,7 +24,12 @@ done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressb
 
 wget "https://staticfiles.psd401.net/psimages/HPDrivers.pkg"
 sudo installer -store -pkg "HPDrivers.pkg" -target /
+wget "https://staticfiles.psd401.net/psimages/meraki.pkg"
+sudo installer -store -pkg "meraki.pkg" -target /
 
+software=$(osascript -e 'Tell application "System Events" to choose from list {"Artondale Elementary School", "Community Transition Program", "Discovery Elementary School", "Educational Service Center", "Evergreen Elementary School", "Gig Harbor High School", "Goodman Middle School", "Harbor Heights Elementary School", "Harbor Ridge Middle School", "Henderson Bay High School", "Key Peninsula Middle School", "Kopachuck Middle School", "Maintenance & Warehouse", "Minter Elementary School", "Peninsula High School", "Purdy Elementary School", "Technical Services", "Transportation", "Vaughn Elementary School", "Voyager Elementary School"} with title "Your Building" with prompt "Please Select your building" with multiple selections allowed')
+
+echo "$software"
 
 # require sudo password
 require_sudo
