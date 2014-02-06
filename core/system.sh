@@ -4,32 +4,58 @@
 source_dir=~/.osx-bootstrap
 source $source_dir/core/helpers.sh
 
+installApps(){
+    export caskformulas='
+        google-chrome
+        firefox
+        geektool
+    '
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+    for formula in $caskformulas
+    do
+        tmp=`brew list | grep $formula`
+        ((i += 1))
+        if [[ ! $tmp ]]; then
+            echo 'Installing Formula '$formula'...'
+            brew cask install $formula --force & echo "$i Installing $formula  $i%"; sleep 0.05
 
-export caskformulas='
-    google-chrome
-    firefox
-    geektool
-'
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-for formula in $caskformulas
-do
-    tmp=`brew list | grep $formula`
-    ((i += 1))
-    if [[ ! $tmp ]]; then
-        echo 'Installing Formula '$formula'...'
-        brew cask install $formula --force & echo "$i Installing $formula  $i%"; sleep 0.05
+        fi
+    done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
 
-    fi
-    
-    curl "https://staticfiles.psd401.net/psimages/HPDrivers.pkg"
-    sudo installer -store -pkg "HPDrivers.pkg" -target /
-    wget "https://staticfiles.psd401.net/psimages/meraki.pkg"
-    sudo installer -store -pkg "meraki.pkg" -target /
-done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
 
-software=$(osascript -e 'Tell application "System Events" to choose from list {"Artondale Elementary School", "Community Transition Program", "Discovery Elementary School", "Educational Service Center", "Evergreen Elementary School", "Gig Harbor High School", "Goodman Middle School", "Harbor Heights Elementary School", "Harbor Ridge Middle School", "Henderson Bay High School", "Key Peninsula Middle School", "Kopachuck Middle School", "Maintenance & Warehouse", "Minter Elementary School", "Peninsula High School", "Purdy Elementary School", "Technical Services", "Transportation", "Vaughn Elementary School", "Voyager Elementary School"} with title "Your Building" with prompt "Please Select your building" with multiple selections allowed')
+    export packageformulas='
+        HPDrivers.pkg
+        meraki.pkg
+    '
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+    for formula in $packageformulas
+    do
+        ((i += 1))
+        echo "Installing $formula $i%";
+        wget "https://staticfiles.psd401.net/psimages/$formula"
+        sudo installer -store -pkg $formula -target /
+    done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Larger Applications")
 
-echo "$software"
+    #software=$(osascript -e 'Tell application "System Events" to choose from list {"Artondale Elementary School", "Community Transition Program", "Discovery Elementary School", "Educational Service Center", "Evergreen Elementary School", "Gig Harbor High School", "Goodman Middle School", "Harbor Heights Elementary School", "Harbor Ridge Middle School", "Henderson Bay High School", "Key Peninsula Middle School", "Kopachuck Middle School", "Maintenance & Warehouse", "Minter Elementary School", "Peninsula High School", "Purdy Elementary School", "Technical Services", "Transportation", "Vaughn Elementary School", "Voyager Elementary School"} with title "Your Building" with prompt "Please Select your building" with multiple selections allowed')
+
+    case "$name" in
+                'Artondale Elementary School')
+                        echo "AES"
+                ;;
+                'Community Transition Program')
+                        echo "CTP"
+                ;;
+                'Discovery Elementary School')
+                        echo "DES"
+                ;;
+                'Educational Service Center')
+                        echo "ESC"
+                ;;
+        esac
+
+    echo "$software"
+}
+
 
 # require sudo password
 require_sudo
@@ -137,6 +163,29 @@ getOS(){
     computerOS=$(system_profiler SPSoftwareDataType | grep "System Version" | grep -Eho "[0-9][0-9]\.[0-9]" | tr -d '.')
 }
 
+downloadName(){
+    echo `system_profiler SPHardwareDataType | awk '/Serial/ {print $4}'` > /tmp/serial.txt
+
+    serial=`cat /tmp/serial.txt`;
+
+    echo "This is the serial: $serial and os $computerOS";
+
+    #Query the serial against filemaker.
+    wget -q /tmp/name.txt "http://10.0.0.131:8080/query.php?serial=$serial&os=M$computerOS" &>/dev/null
+
+    nameinfo=`cat /tmp/name.txt`;
+
+    echo "This is the new name: $nameinfo";
+
+    if [ "$serial" == ""]; then
+        getBarcode
+        getName
+    else
+        computername=$nameinfo;
+        getConfirmation
+    fi
+}
+
 
 
 modelname=$(system_profiler SPHardwareDataType | grep "Model Identifier" | cut -d: -f2)
@@ -163,6 +212,22 @@ case "$modelname" in
 esac
 
 finish(){
+     echo 'Sending computer information to Tech Support......     '
+
+    mac=`ifconfig | grep ether | head -n1 | base64`;
+    name=`$computername | base64`;
+    sysserial=`system_profiler SPHardwareDataType | awk '/Serial/ {print $4}'`;
+    osid=`echo 50 | base64`;
+    imageid=`echo 2 | base64`;
+    ip=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}' | base64`
+
+    data="mac=${mac}&host=${name}&serial=${sysserial}&advanced=1&osid=${osid}&imageid=${imageid}";
+    
+    res="";
+
+    res=`wget -O - --post-data="${data}" "http://fog.psd401.net/fog/service/auto.register.php" 2>/dev/null`
+    echo "${res}"
+
     formulas=(
         'scutil --set HostName "$computername"'
         'scutil --set LocalHostName "$computername"'
@@ -267,7 +332,9 @@ rv1=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-n
     --informative-text "You will be prompted to provide this computers barcode and future location." \
     --button1 "Im ready!!"`
 if [ "$rv1" == "1" ]; then
+    installApps
     getOS
-    getBarcode
-    getName
+    downloadName
+    #getBarcode
+    #getName
 fi

@@ -64,10 +64,10 @@ echo "DONE!"
 
 rv1=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
     --text "Image Complete!" \
-    --informative-text "The image is ready to go, lets reboot, then log in as yourself and confirm that everything looks good." \
-    --button1 "Reboot"`
+    --informative-text "The image is ready to go, lets logout, then log in as yourself and confirm that everything looks good." \
+    --button1 "Logout"`
 if [ "$rv1" == "1" ]; then
-    sudo reboot
+    osascript -e 'tell application \"System Events\" to log out'
 fi
 
 # done
