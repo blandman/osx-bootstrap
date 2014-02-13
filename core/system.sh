@@ -16,8 +16,8 @@ installApps(){
         tmp=`brew list | grep $formula`
         ((i += 1))
         if [[ ! $tmp ]]; then
-            brew cask install $formula --force & echo "$i Installing $formula  $i%"; sleep 0.05
-
+            echo "$i Installing $formula  $i%"
+            brew cask install $formula --force
         fi
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")
 
@@ -34,7 +34,7 @@ installApps(){
         sudo installer -store -pkg $formula -target /
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Larger Applications")
 
-    software=`osascript -e 'Tell application "System Events" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed'`;
+    software=`osascript -e 'Tell application "Terminal" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed'`;
 
     echo "$software";
     if [[ "$software" == *CS6* ]]
