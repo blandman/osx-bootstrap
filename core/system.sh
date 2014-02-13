@@ -16,7 +16,6 @@ installApps(){
         tmp=`brew list | grep $formula`
         ((i += 1))
         if [[ ! $tmp ]]; then
-            echo 'Installing Formula '$formula'...'
             brew cask install $formula --force & echo "$i Installing $formula  $i%"; sleep 0.05
 
         fi
@@ -27,7 +26,6 @@ installApps(){
         HPDrivers.pkg
         meraki.pkg
     '
-    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
     for formula in $packageformulas
     do
         ((i += 1))
@@ -36,24 +34,29 @@ installApps(){
         sudo installer -store -pkg $formula -target /
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Larger Applications")
 
-    #software=$(osascript -e 'Tell application "System Events" to choose from list {"Artondale Elementary School", "Community Transition Program", "Discovery Elementary School", "Educational Service Center", "Evergreen Elementary School", "Gig Harbor High School", "Goodman Middle School", "Harbor Heights Elementary School", "Harbor Ridge Middle School", "Henderson Bay High School", "Key Peninsula Middle School", "Kopachuck Middle School", "Maintenance & Warehouse", "Minter Elementary School", "Peninsula High School", "Purdy Elementary School", "Technical Services", "Transportation", "Vaughn Elementary School", "Voyager Elementary School"} with title "Your Building" with prompt "Please Select your building" with multiple selections allowed')
+    software=$(osascript -e 'Tell application "System Events" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed') > /dev/null;
 
-    case "$name" in
-                'Artondale Elementary School')
-                        echo "AES"
-                ;;
-                'Community Transition Program')
-                        echo "CTP"
-                ;;
-                'Discovery Elementary School')
-                        echo "DES"
-                ;;
-                'Educational Service Center')
-                        echo "ESC"
-                ;;
-        esac
+    echo "$software";
+    if [[ "$software" == *CS6* ]]
+    then
+        wget "https://staticfiles.psd401.net/psimages/Adobe_CS6_Install.pkg.zip"
+        open Adobe_CS6_Install.pkg.zip
+        rm -rf Adobe_CS6_Install.pkg.zip
+        sudo installer -store -pkg Adobe_CS6_Install.pkg -target /
+    fi
+    if [[ "$software" == *Sketchup* ]]
+    then
+        wget "https://staticfiles.psd401.net/psimages/Sketchup-Pro-2013.pkg"
+        sudo installer -store -pkg Sketchup-Pro-2013.pkg -target /
+    fi
+    if [[ "$software" == *Remote* ]]
+    then
+        wget "https://staticfiles.psd401.net/psimages/Apple-Remote-Desktop.pkg"
+        sudo installer -store -pkg Apple-Remote-Desktop.pkg -target /
+    fi
 
-    echo "$software"
+    getOS
+    downloadName
 }
 
 
@@ -171,9 +174,7 @@ downloadName(){
     echo "This is the serial: $serial and os $computerOS";
 
     #Query the serial against filemaker.
-    wget -q /tmp/name.txt "http://10.0.0.131:8080/query.php?serial=$serial&os=M$computerOS" &>/dev/null
-
-    nameinfo=`cat /tmp/name.txt`;
+    nameinfo=`wget -qO- "http://10.0.0.131:8080/query.php?serial=$serial&os=M$computerOS"`
 
     echo "This is the new name: $nameinfo";
 
@@ -333,8 +334,6 @@ rv1=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-n
     --button1 "Im ready!!"`
 if [ "$rv1" == "1" ]; then
     installApps
-    getOS
-    downloadName
     #getBarcode
     #getName
 fi
