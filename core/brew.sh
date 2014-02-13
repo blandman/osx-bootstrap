@@ -38,7 +38,6 @@ fi
 
 exec 3>&-
 
-wait
 rm -f $source_dir/tmp/hpipe
 
 # install helpfull formulas
