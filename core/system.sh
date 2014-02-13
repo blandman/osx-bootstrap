@@ -30,8 +30,9 @@ installApps(){
     do
         ((i += 1))
         echo "Installing $formula $i%";
-        wget "https://staticfiles.psd401.net/psimages/$formula"
+        wget "https://staticfiles.psd401.net/psimages/$formula" 
         sudo installer -store -pkg $formula -target /
+        rm -rf $formula
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Larger Applications")
 
     software=`osascript -e 'Tell application "Terminal" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed'`;
@@ -40,7 +41,7 @@ installApps(){
     if [[ "$software" == *CS6* ]]
     then
         wget "https://staticfiles.psd401.net/psimages/Adobe_CS6_Install.pkg.zip"
-        open Adobe_CS6_Install.pkg.zip
+        unzip Adobe_CS6_Install.pkg.zip
         rm -rf Adobe_CS6_Install.pkg.zip
         sudo installer -store -pkg Adobe_CS6_Install.pkg -target /
     fi
