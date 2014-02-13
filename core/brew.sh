@@ -47,8 +47,6 @@ export formulas='
     bash-completion
     ssh-copy-id
     wget 
-    dnsmasq
-    nginx
     cowsay
     redis
     geoip
