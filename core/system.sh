@@ -35,7 +35,7 @@ installApps(){
         rm -rf $formula
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Larger Applications")
 
-    software=`osascript -e 'Tell application "Terminal" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed'`;
+    software=`osascript -e 'with timeout of 86400 seconds' -e 'Tell application "Terminal" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed' -e 'end'`;
 
     echo "$software";
     if [[ "$software" == *CS6* ]]
@@ -70,7 +70,7 @@ getName(){
     name=$(osascript -e 'Tell application "System Events" to choose from list {"Artondale Elementary School", "Community Transition Program", "Discovery Elementary School", "Educational Service Center", "Evergreen Elementary School", "Gig Harbor High School", "Goodman Middle School", "Harbor Heights Elementary School", "Harbor Ridge Middle School", "Henderson Bay High School", "Key Peninsula Middle School", "Kopachuck Middle School", "Maintenance & Warehouse", "Minter Elementary School", "Peninsula High School", "Purdy Elementary School", "Technical Services", "Transportation", "Vaughn Elementary School", "Voyager Elementary School"} with title "Your Building" with prompt "Please Select your building"')
 
     if [ $? -ne 0 ]; then
-        cancel=$(osascript -e 'Tell application "System Events" to display alert "You must enter a name for this computer....." as warning')
+        cancel=$(osascript -e 'with timeout of 86400 seconds' -e 'Tell application "System Events" to display alert "You must enter a name for this computer....." as warning' -e 'end')
         echo "$cancel"
         exit 1 # exit with an error status
     elif [ -z "$name" ]; then
@@ -153,7 +153,7 @@ getName(){
 
 getBarcode() {
     
-    tempbarcode=$(osascript -e 'Tell application "System Events" to display dialog "Please Enter the last 6 digits of your computers barcode.\nPlease call ext. 3711 if you need help." buttons {"Next"} default button 1 default answer ""' | grep "text returned:")
+    tempbarcode=$(osascript -e 'with timeout of 86400 seconds' -e 'Tell application "System Events" to display dialog "Please Enter the last 6 digits of your computers barcode.\nPlease call ext. 3711 if you need help." buttons {"Next"} default button 1 default answer ""' -e 'end' | grep "text returned:")
     
     computerbarcode=$(expr "$tempbarcode" : '.*\([0-9][0-9][0-9][0-9][0-9][0-9]\)')
     
