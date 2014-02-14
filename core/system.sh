@@ -5,6 +5,27 @@ source_dir=~/.osx-bootstrap
 source $source_dir/core/helpers.sh
 
 installApps(){
+    software=`osascript -e 'with timeout of 86400 seconds' -e 'Tell application "Terminal" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed' -e 'end'`;
+
+    echo "$software";
+    if [[ "$software" == *CS6* ]]
+    then
+        wget "https://staticfiles.psd401.net/psimages/Adobe_CS6_Install.pkg.zip"
+        unzip Adobe_CS6_Install.pkg.zip
+        rm -rf Adobe_CS6_Install.pkg.zip
+        sudo installer -store -pkg Adobe_CS6_Install.pkg -target /
+    fi
+    if [[ "$software" == *Sketchup* ]]
+    then
+        wget "https://staticfiles.psd401.net/psimages/Sketchup-Pro-2013.pkg"
+        sudo installer -store -pkg Sketchup-Pro-2013.pkg -target /
+    fi
+    if [[ "$software" == *Remote* ]]
+    then
+        wget "https://staticfiles.psd401.net/psimages/Apple-Remote-Desktop.pkg"
+        sudo installer -store -pkg Apple-Remote-Desktop.pkg -target /
+    fi
+
     export caskformulas='
         google-chrome
         firefox
@@ -35,29 +56,7 @@ installApps(){
         rm -rf $formula
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Larger Applications")
 
-    software=`osascript -e 'with timeout of 86400 seconds' -e 'Tell application "Terminal" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed' -e 'end'`;
-
-    echo "$software";
-    if [[ "$software" == *CS6* ]]
-    then
-        wget "https://staticfiles.psd401.net/psimages/Adobe_CS6_Install.pkg.zip"
-        unzip Adobe_CS6_Install.pkg.zip
-        rm -rf Adobe_CS6_Install.pkg.zip
-        sudo installer -store -pkg Adobe_CS6_Install.pkg -target /
-    fi
-    if [[ "$software" == *Sketchup* ]]
-    then
-        wget "https://staticfiles.psd401.net/psimages/Sketchup-Pro-2013.pkg"
-        sudo installer -store -pkg Sketchup-Pro-2013.pkg -target /
-    fi
-    if [[ "$software" == *Remote* ]]
-    then
-        wget "https://staticfiles.psd401.net/psimages/Apple-Remote-Desktop.pkg"
-        sudo installer -store -pkg Apple-Remote-Desktop.pkg -target /
-    fi
-
-    getOS
-    downloadName
+    finish
 }
 
 
@@ -67,7 +66,7 @@ require_sudo
 
 
 getName(){
-    name=$(osascript -e 'Tell application "System Events" to choose from list {"Artondale Elementary School", "Community Transition Program", "Discovery Elementary School", "Educational Service Center", "Evergreen Elementary School", "Gig Harbor High School", "Goodman Middle School", "Harbor Heights Elementary School", "Harbor Ridge Middle School", "Henderson Bay High School", "Key Peninsula Middle School", "Kopachuck Middle School", "Maintenance & Warehouse", "Minter Elementary School", "Peninsula High School", "Purdy Elementary School", "Technical Services", "Transportation", "Vaughn Elementary School", "Voyager Elementary School"} with title "Your Building" with prompt "Please Select your building"')
+    name=$(osascript -e 'with timeout of 86400 seconds' -e 'Tell application "System Events" to choose from list {"Artondale Elementary School", "Community Transition Program", "Discovery Elementary School", "Educational Service Center", "Evergreen Elementary School", "Gig Harbor High School", "Goodman Middle School", "Harbor Heights Elementary School", "Harbor Ridge Middle School", "Henderson Bay High School", "Key Peninsula Middle School", "Kopachuck Middle School", "Maintenance & Warehouse", "Minter Elementary School", "Peninsula High School", "Purdy Elementary School", "Technical Services", "Transportation", "Vaughn Elementary School", "Voyager Elementary School"} with title "Your Building" with prompt "Please Select your building"' -e 'end')
 
     if [ $? -ne 0 ]; then
         cancel=$(osascript -e 'with timeout of 86400 seconds' -e 'Tell application "System Events" to display alert "You must enter a name for this computer....." as warning' -e 'end')
@@ -75,8 +74,7 @@ getName(){
         exit 1 # exit with an error status
     elif [ -z "$name" ]; then
         osascript -e 'Tell application "System Events" to display alert "You must enter a name for this computer....." as warning'
-            getName
-        exit 1 # exit with an error status
+        getName
     fi
     
     case "$name" in
@@ -290,7 +288,7 @@ finish(){
         # If the domain returned did not match our expectations
         echo "The Mac is NOT bound to AD"
         rv=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --text "Woops" \
-            --informative-text "It looks like there was a problem joining to the PSD domain. Retry?" \
+            --informative-text "It looks like there was a problem joining to the PSD domain. Try disconnecting from the network and then reconnecting, this often works. Retry?" \
             --button1 "Retry" --button2 "Cancel"`
         if [ "$rv" == "1" ]; then
             echo "User said OK"
@@ -319,7 +317,7 @@ getConfirmation(){
         getBarcode
         getName
     else
-        finish
+        installApps
     fi
 }
 
@@ -334,7 +332,8 @@ rv1=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-n
     --informative-text "You will be prompted to provide this computers barcode and future location." \
     --button1 "Im ready!!"`
 if [ "$rv1" == "1" ]; then
-    installApps
+    getOS
+    downloadName
     #getBarcode
     #getName
 fi
