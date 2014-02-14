@@ -218,9 +218,7 @@ getOS(){
 }
 
 downloadName(){
-    echo `system_profiler SPHardwareDataType | awk '/Serial/ {print $4}'` > /tmp/serial.txt
-
-    serial=`cat /tmp/serial.txt`;
+    serial=`system_profiler SPHardwareDataType | awk '/Serial/ {print $4}'`;
 
     echo "This is the serial: $serial and os $computerOS";
 
