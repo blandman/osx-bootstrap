@@ -27,7 +27,7 @@ installApps(){
         
         unzip Adobe_CS6_Install.pkg.zip
         rm -rf Adobe_CS6_Install.pkg.zip
-        installer -store -pkg $source_dir/Adobe_CS6_Install.pkg -target /
+        sudo installer -pkg $source_dir/Adobe_CS6_Install.pkg -target /
 
         # now turn off the progress bar by closing file descriptor 3
         exec 3>&-
@@ -48,7 +48,7 @@ installApps(){
 
         # do all of your work here
         wget "https://staticfiles.psd401.net/psimages/Sketchup-Pro-2013.pkg"
-        installer -store -pkg $source_dir/Sketchup-Pro-2013.pkg -target /
+        sudo installer -pkg $source_dir/Sketchup-Pro-2013.pkg -target /
 
         # now turn off the progress bar by closing file descriptor 3
         exec 3>&-
@@ -69,7 +69,7 @@ installApps(){
 
         # do all of your work here
         wget "https://staticfiles.psd401.net/psimages/Apple-Remote-Desktop.pkg"
-        installer -store -pkg $source_dir/Apple-Remote-Desktop.pkg -target /
+        sudo installer -pkg $source_dir/Apple-Remote-Desktop.pkg -target /
 
         # now turn off the progress bar by closing file descriptor 3
         exec 3>&-
