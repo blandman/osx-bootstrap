@@ -40,7 +40,8 @@ exec 3<> /tmp/hpipe
 echo -n . >&3
 
 # do all of your work here
-sudo gem install puppet > /Users/administrator/Desktop/imagelog.txt
+wget "https://staticfiles.psd401.net/psimages/puppet-3.4.2.pkg"
+sudo installer -store -pkg puppet-3.4.2.pkg -target /
 
 # now turn off the progress bar by closing file descriptor 3
 exec 3>&-
@@ -72,7 +73,6 @@ ssldir=/var/lib/puppet/ssl
 rundir=/var/run/puppet
 factpath=$vardir/lib/factor
 templatedir=$confdir/templates
-server=vmnocwspuppet01.psd401.net
 report=true
 certname = `hostname | tr [:upper:] [:lower:]`.psd401.net
 
