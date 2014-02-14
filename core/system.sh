@@ -15,7 +15,7 @@ installApps(){
 
         # create a background job which takes its input from the named pipe
         $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar \
-        --indeterminate --title "Instaling CS6" \
+        --indeterminate --title "Installing CS6" \
         --text "Please wait... This will take some time..." < /tmp/hpipe &
 
         # associate file descriptor 3 with that pipe and send a character through the pipe
@@ -39,7 +39,7 @@ installApps(){
     then
         mkfifo /tmp/hpipe
         $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar \
-        --indeterminate --title "Instaling Sketchup Pro 2013" \
+        --indeterminate --title "Installing Sketchup Pro 2013" \
         --text "Please wait... This should take a few minutes" < /tmp/hpipe &
 
         # associate file descriptor 3 with that pipe and send a character through the pipe
@@ -60,8 +60,8 @@ installApps(){
     then
         mkfifo /tmp/hpipe
         $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar \
-        --indeterminate --title "Instaling Apple Remote Desktop" \
-        --text "Please wait... This shouldn't take long at all" < /tmp/hpipe &
+        --indeterminate --title "Installing Apple Remote Desktop" \
+        --text "Please wait... This shouldn't take long at all\nWARNING: With Apple Remote Desktop you must log into the user that will be using it and configure it for them!!!" < /tmp/hpipe &
 
         # associate file descriptor 3 with that pipe and send a character through the pipe
         exec 3<> /tmp/hpipe
