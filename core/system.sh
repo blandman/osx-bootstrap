@@ -5,7 +5,7 @@ source_dir=~/.osx-bootstrap
 source $source_dir/core/helpers.sh
 
 installApps(){
-    software=`osascript -e 'with timeout of 86400 seconds' -e 'Tell application "Finder" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed' -e 'end'`;
+    software=`osascript -e 'with timeout of 86400 seconds' -e 'Tell application "System Events" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed' -e 'end'`;
 
     echo "$software";
     if [[ "$software" == *CS6* ]]
