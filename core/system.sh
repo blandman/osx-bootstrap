@@ -33,7 +33,6 @@ installApps(){
         exec 3>&-
 
         # wait for all background jobs to exit
-        wait
         rm -f /tmp/hpipe
     fi
     if [[ "$software" == *Sketchup* ]]
@@ -55,7 +54,6 @@ installApps(){
         exec 3>&-
 
         # wait for all background jobs to exit
-        wait
         rm -f /tmp/hpipe
     fi
     if [[ "$software" == *Remote* ]]
@@ -77,7 +75,6 @@ installApps(){
         exec 3>&-
 
         # wait for all background jobs to exit
-        wait
         rm -f /tmp/hpipe
     fi
 
