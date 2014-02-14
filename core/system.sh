@@ -5,25 +5,80 @@ source_dir=~/.osx-bootstrap
 source $source_dir/core/helpers.sh
 
 installApps(){
-    software=`osascript -e 'with timeout of 86400 seconds' -e 'Tell application "Terminal" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed' -e 'end'`;
+    software=`osascript -e 'with timeout of 86400 seconds' -e 'Tell application "Finder" to choose from list {"Adobe CS6", "Sketchup Pro 2013", "Apple Remote Desktop"} with title "Packages to include" with prompt "Hold Command to select multiple packages to install. Press Cancel to skip." with multiple selections allowed' -e 'end'`;
 
     echo "$software";
     if [[ "$software" == *CS6* ]]
     then
-        wget "https://staticfiles.psd401.net/psimages/Adobe_CS6_Install.pkg.zip"
-        unzip Adobe_CS6_Install.pkg.zip
-        rm -rf Adobe_CS6_Install.pkg.zip
-        sudo installer -store -pkg Adobe_CS6_Install.pkg -target /
+        rm -f /tmp/hpipe
+        mkfifo /tmp/hpipe
+
+        # create a background job which takes its input from the named pipe
+        $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar \
+        --indeterminate --title "Instaling CS6" \
+        --text "Please wait... This will take some time..." < /tmp/hpipe &
+
+        # associate file descriptor 3 with that pipe and send a character through the pipe
+        exec 3<> /tmp/hpipe
+        echo -n . >&3
+
+        # do all of your work here
+        wget --progress=dot "https://staticfiles.psd401.net/psimages/Adobe_CS6_Install.pkg.zip"
+        
+        unzip Adobe_CS6_Install.pkg.zip >&3
+        rm -rf Adobe_CS6_Install.pkg.zip >&3
+        sudo installer -store -pkg Adobe_CS6_Install.pkg -target / >&3
+
+        # now turn off the progress bar by closing file descriptor 3
+        exec 3>&-
+
+        # wait for all background jobs to exit
+        wait
+        rm -f /tmp/hpipe
     fi
     if [[ "$software" == *Sketchup* ]]
     then
+        mkfifo /tmp/hpipe
+        $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar \
+        --indeterminate --title "Instaling Sketchup Pro 2013" \
+        --text "Please wait... This should take a few minutes" < /tmp/hpipe &
+
+        # associate file descriptor 3 with that pipe and send a character through the pipe
+        exec 3<> /tmp/hpipe
+        echo -n . >&3
+
+        # do all of your work here
         wget "https://staticfiles.psd401.net/psimages/Sketchup-Pro-2013.pkg"
         sudo installer -store -pkg Sketchup-Pro-2013.pkg -target /
+
+        # now turn off the progress bar by closing file descriptor 3
+        exec 3>&-
+
+        # wait for all background jobs to exit
+        wait
+        rm -f /tmp/hpipe
     fi
     if [[ "$software" == *Remote* ]]
     then
+        mkfifo /tmp/hpipe
+        $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar \
+        --indeterminate --title "Instaling Apple Remote Desktop" \
+        --text "Please wait... This shouldn't take long at all" < /tmp/hpipe &
+
+        # associate file descriptor 3 with that pipe and send a character through the pipe
+        exec 3<> /tmp/hpipe
+        echo -n . >&3
+
+        # do all of your work here
         wget "https://staticfiles.psd401.net/psimages/Apple-Remote-Desktop.pkg"
         sudo installer -store -pkg Apple-Remote-Desktop.pkg -target /
+
+        # now turn off the progress bar by closing file descriptor 3
+        exec 3>&-
+
+        # wait for all background jobs to exit
+        wait
+        rm -f /tmp/hpipe
     fi
 
     export caskformulas='
