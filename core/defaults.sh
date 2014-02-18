@@ -50,7 +50,6 @@ formulas=(
     'sudo defaults write NSGlobalDomain com.apple.Terminal StringEncodings -array 4'
     'sudo defaults write NSGlobalDomain com.apple.Terminal ShellExitAction 2'
     'sudo defaults write NSGlobalDomain com.apple.Terminal FontAntialias 1'
-    'sudo defaults write NSGlobalDomain com.apple.Terminal Shell "/bin/zsh"'
     'sudo defaults write NSGlobalDomain com.apple.Terminal "Default Window Settings" "Pro"'
     'sudo defaults write NSGlobalDomain com.apple.Terminal "Startup Window Settings" "Pro"'
     'sudo defaults write NSGlobalDomain com.apple.TimeMachine DoNotOfferNewDisksForBackup TRUE'
