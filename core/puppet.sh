@@ -29,36 +29,36 @@ source_dir=~/.osx-bootstrap
 
 #echo "sudo installer -package /Volumes/hiera-$hiera_version/puppet-$hiera_version.pkg -target $target_volume"
 #sudo installer -package /Volumes/hiera-$hiera_version/hiera-$hiera_version.pkg -target "$target_volume"
-rm -f /tmp/hpipe
-mkfifo /tmp/hpipe
+rm -f tmp/hpipe
+mkfifo tmp/hpipe
 
 # create a background job which takes its input from the named pipe
-$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Puppet" --text "Installing Puppet, Please wait..." < /tmp/hpipe &
+$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Puppet" --text "Installing Puppet, Please wait..." < tmp/hpipe &
 
 # associate file descriptor 3 with that pipe and send a character through the pipe
-exec 3<> /tmp/hpipe
+exec 3<> tmp/hpipe
 echo -n . >&3
 
 # do all of your work here
 wget "https://staticfiles.psd401.net/psimages/puppet-3.4.2.pkg"
-sudo installer -store -pkg puppet-3.4.2.pkg -target /
+sudo installer -pkg $source_dir/puppet-3.4.2.pkg -target /
 
 # now turn off the progress bar by closing file descriptor 3
 exec 3>&-
 
 # wait for all background jobs to exit
 wait
-rm -f /tmp/hpipe
+rm -f tmp/hpipe
 
 
-rm -f /tmp/hpipe
-mkfifo /tmp/hpipe
+rm -f tmp/hpipe
+mkfifo tmp/hpipe
 
 # create a background job which takes its input from the named pipe
-$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Puppet" --text "Configuring Puppet, Please wait..." < /tmp/hpipe &
+$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Puppet" --text "Configuring Puppet, Please wait..." < tmp/hpipe &
 
 # associate file descriptor 3 with that pipe and send a character through the pipe
-exec 3<> /tmp/hpipe
+exec 3<> tmp/hpipe
 echo -n . >&3
 
 # do all of your work here
@@ -68,6 +68,7 @@ echo "Creating /etc/puppet/puppet.conf"
 mkdir /etc/puppet/
 
 sudo sh -c "echo \"[main]
+pluginsync=true
 logdir=/var/lib/puppet
 ssldir=/var/lib/puppet/ssl
 rundir=/var/run/puppet
@@ -96,4 +97,4 @@ sudo launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist
 exec 3>&-
 
 wait
-rm -f /tmp/hpipe
+rm -f tmp/hpipe

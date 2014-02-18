@@ -224,7 +224,7 @@ downloadName(){
 
     #Query the serial against filemaker.
     nameinfo=`wget -qO- "http://10.0.0.131:8080/query.php?serial=$serial&os=M$computerOS"`
-
+    
     echo "This is the new name: $nameinfo";
 
     if [ "$serial" == ""]; then
