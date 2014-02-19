@@ -41,10 +41,10 @@ source $source_dir/core/helpers.sh
 # install brew
 
 su Administrator <<'EOF'
-source ~/.osx-bootstrap/core/brew.sh
+source ~/.osx-bootstrap/core/brew.sh > ~/Desktop/finish-log.txt
 EOF
 
-source $source_dir/core/system.sh $1
+source $source_dir/core/system.sh $1 > ~/Desktop/finish-log.txt 
 # install python
 #source $source_dir/core/python.sh
 # install mysql
@@ -56,9 +56,9 @@ source $source_dir/core/system.sh $1
 # install zsh
 #source $source_dir/core/zsh.sh
 # install defaults
-source $source_dir/core/defaults.sh
+source $source_dir/core/defaults.sh > ~/Desktop/finish-log.txt
 # install puppet
-source $source_dir/core/puppet.sh
+source $source_dir/core/puppet.sh > ~/Desktop/finish-log.txt
 
 echo "DONE!"
 # place your extras here
