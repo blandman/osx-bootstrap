@@ -21,7 +21,9 @@ source $source_dir/core/helpers.sh
 
 mkdir ~/Desktop/Finish\ image\ logs/
 
-source `su administrator ~/.osx-bootstrap/core/brew.sh > /dev/tty`
+source source `su administrator ~/.osx-bootstrap/core/brew.sh > /dev/tty` &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt 
+
+
 
 source $source_dir/core/system.sh $1 &> ~/Desktop/Finish\ image\ logs/finish-system-log.txt 
 # install python
