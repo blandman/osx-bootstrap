@@ -26,13 +26,13 @@ echo -n . >&3
 `which -s brew`
 if [[ $? != 0 ]]; then
     echo '##### Installing Homebrew...'
-    ruby -e "$(curl -fsSLk https://raw.github.com/mxcl/homebrew/go/install)" < <(echo 1)
-    brew doctor
-    brew tap phinze/homebrew-cask
+    ruby -e "$(curl -fsSLk https://raw.github.com/mxcl/homebrew/go/install)" < <(echo 1) &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt 
+    brew doctor &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt 
+    brew tap phinze/homebrew-cask &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt 
 else
     echo '##### Running Homebrew Updates...'
-    brew update
-    brew doctor
+    brew update &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt 
+    brew doctor &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt 
 fi
 
 exec 3>&-
@@ -55,8 +55,10 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew install $formula
+        brew install $formula &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt 
         echo "$i Installing $formula  $i%"; sleep 0.05
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Installing Required Scripts")
+
+
 
