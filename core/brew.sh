@@ -26,7 +26,7 @@ echo -n . >&3
 `which -s brew`
 if [[ $? != 0 ]]; then
     echo '##### Installing Homebrew...'
-    ruby -e "$(curl -fsSLk https://raw.github.com/mxcl/homebrew/go/install)" < <(echo 1)
+    su Administrator ruby -e "$(curl -fsSLk https://raw.github.com/mxcl/homebrew/go/install)" < <(echo 1)
     su Administrator brew doctor
     su Administrator brew tap phinze/homebrew-cask
 else
