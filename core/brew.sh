@@ -27,7 +27,7 @@ echo -n . >&3
 if [[ $? != 0 ]]; then
     echo ''
     echo '##### Installing Homebrew...'
-    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)" < <(echo 1)
+    ruby -e "$(curl -fsSLk https://raw.github.com/mxcl/homebrew/go/install)" < <(echo 1)
     brew tap phinze/homebrew-cask
 else
     echo ''
