@@ -41,7 +41,7 @@ source $source_dir/core/helpers.sh
 # install brew
 
 su Administrator <<'EOF'
-source $source_dir/core/brew.sh
+source ~/.osx-bootstrap/core/brew.sh
 EOF
 
 source $source_dir/core/system.sh $1
