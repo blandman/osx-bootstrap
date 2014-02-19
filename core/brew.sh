@@ -27,12 +27,12 @@ echo -n . >&3
 if [[ $? != 0 ]]; then
     echo '##### Installing Homebrew...'
     ruby -e "$(curl -fsSLk https://raw.github.com/mxcl/homebrew/go/install)" < <(echo 1)
-    brew doctor
-    brew tap phinze/homebrew-cask
+    su Administrator brew doctor
+    su Administrator brew tap phinze/homebrew-cask
 else
     echo '##### Running Homebrew Updates...'
-    brew update
-    brew doctor
+    su Administrator brew update
+    su Administrator brew doctor
 fi
 
 exec 3>&-
@@ -55,7 +55,7 @@ do
     ((i += 1))
     if [[ ! $tmp ]]; then
         echo 'Installing Formula '$formula'...'
-        brew install $formula
+        su Administrator brew install $formula
         echo "$i Installing $formula  $i%"; sleep 0.05
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --indeterminate --title "Installing Required Scripts")

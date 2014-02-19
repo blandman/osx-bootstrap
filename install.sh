@@ -14,37 +14,16 @@ source_dir=~/.osx-bootstrap
 source_file=$source_dir/.osx-bootstrap
 source_file_tmp=$source_dir/.osx-bootstrap-tmp
 
-# we need to download the repo for the absolute paths
-#rm -rf ~/.osx-bootstrap
-
-#if [[ ! -d ~/.osx-bootstrap ]]; then
-    #echo '##### Downloading Bootstrap...'
-	# autoupdate bootstrap file
-	#git clone https://github.com/blandman/osx-bootstrap.git $source_dir
-	# hide folder
-	chflags hidden $source_dir
-#else
-	# update repo
-#    echo '##### Running Bootstrap Updates...'
-#	cd $source_dir
-#	git pull origin master
-#fi
-
 # define helpers
 source $source_dir/core/helpers.sh
 
 # create bootstrap tmp
-[[ ! -f $source_file ]] && cp -rf $source_dir/install.sh $source_file_tmp
-
-# include system with param $1
 
 # install brew
 
 mkdir ~/Desktop/Finish\ image\ logs/
 
-su Administrator <<'EOF'
 source ~/.osx-bootstrap/core/brew.sh &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt
-EOF
 
 source $source_dir/core/system.sh $1 &> ~/Desktop/Finish\ image\ logs/finish-system-log.txt 
 # install python

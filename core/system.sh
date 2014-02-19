@@ -219,9 +219,9 @@ getOS(){
 
 downloadName(){
     serial=`system_profiler SPHardwareDataType | awk '/Serial/ {print $4}'`;
-    
+
     echo "This is the serial: $serial and os $computerOS";
-    
+
     #Query the serial against filemaker.
     nameinfo=`wget -qO- "http://10.0.0.131:8080/query.php?serial=$serial&os=M$computerOS"`
     
@@ -379,7 +379,7 @@ echo "the computer type is: $computertype"
 
 rv1=`$source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog msgbox --no-newline \
     --text "Are You Ready?" \
-    --informative-text "You will be prompted to provide this computers barcode and future location.\nSome of these popups are time sensitive." \
+    --informative-text "You will be prompted to provide this computers barcode and future location. Some of these popups are time sensitive." \
     --button1 "Im ready!!"`
 if [ "$rv1" == "1" ]; then
     getOS
