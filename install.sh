@@ -21,7 +21,7 @@ source $source_dir/core/helpers.sh
 
 mkdir ~/Desktop/Finish\ image\ logs/
 
-source source `su administrator ~/.osx-bootstrap/core/brew.sh > /dev/tty` &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt 
+bash source `su administrator ~/.osx-bootstrap/core/brew.sh > /dev/tty` &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt 
 
 
 
