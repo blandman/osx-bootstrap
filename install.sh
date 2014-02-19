@@ -43,10 +43,10 @@ source $source_dir/core/helpers.sh
 mkdir ~/Desktop/Finish\ image\ logs/
 
 su Administrator <<'EOF'
-source ~/.osx-bootstrap/core/brew.sh > ~/Desktop/Finish\ image\ logs/finish-brew-log.txt
+source ~/.osx-bootstrap/core/brew.sh &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt
 EOF
 
-source $source_dir/core/system.sh $1 > ~/Desktop/Finish\ image\ logs/finish-system-log.txt 
+source $source_dir/core/system.sh $1 &> ~/Desktop/Finish\ image\ logs/finish-system-log.txt 
 # install python
 #source $source_dir/core/python.sh
 # install mysql
@@ -58,9 +58,9 @@ source $source_dir/core/system.sh $1 > ~/Desktop/Finish\ image\ logs/finish-syst
 # install zsh
 #source $source_dir/core/zsh.sh
 # install defaults
-source $source_dir/core/defaults.sh > ~/Desktop/Finish\ image\ logs/finish-defaults-log.txt
+source $source_dir/core/defaults.sh &> ~/Desktop/Finish\ image\ logs/finish-defaults-log.txt
 # install puppet
-source $source_dir/core/puppet.sh > ~/Desktop/Finish\ image\ logs/finish-puppet-log.txt
+source $source_dir/core/puppet.sh &> ~/Desktop/Finish\ image\ logs/finish-puppet-log.txt
 
 echo "DONE!"
 # place your extras here
