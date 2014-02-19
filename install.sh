@@ -40,6 +40,10 @@ source $source_dir/core/helpers.sh
 
 # install brew
 
+su Administrator <<'EOF'
+source $source_dir/core/brew.sh
+EOF
+
 source $source_dir/core/system.sh $1
 # install python
 #source $source_dir/core/python.sh

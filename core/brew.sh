@@ -46,10 +46,8 @@ export formulas='
     ssh-copy-id
     wget 
     cowsay
-    redis
     geoip
     terminal-notifier
-    brew-cask
 '
 i=0
 for formula in $formulas
@@ -60,22 +58,5 @@ do
         echo 'Installing Formula '$formula'...'
         brew install $formula
         echo "$i Installing $formula  $i%"; sleep 0.05
-
-
-        if [[ $formula = 'dnsmasq' ]]; then
-            # setup dnsmask
-            mkdir /usr/local/etc/
-            cp -rf $source_dir/templates/dnsmasq.conf /usr/local/etc
-        fi
-
-        if [[ $formula = 'nginx' ]]; then
-            ln -sfv /usr/local/opt/nginx/*.plist ~/Library/LaunchAgents
-            launchctl load ~/Library/LaunchAgents/homebrew.mxcl.nginx.plist
-        fi
-
-        if [[ $formula = 'redis' ]]; then
-            ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
-            launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
-        fi
     fi
 done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts")

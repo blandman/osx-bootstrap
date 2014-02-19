@@ -62,7 +62,7 @@ installApps(){
         $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar \
         --indeterminate --title "Installing Apple Remote Desktop" \
         --text "Please wait... This shouldn't take long at all\nWARNING: With Apple Remote Desktop you must log into the user that will be using it and configure it for them!!!" < /tmp/hpipe &
-
+        
         # associate file descriptor 3 with that pipe and send a character through the pipe
         exec 3<> /tmp/hpipe
         echo -n . >&3
@@ -104,7 +104,7 @@ installApps(){
         ((i += 1))
         echo "Installing $formula $i%";
         wget "https://staticfiles.psd401.net/psimages/$formula" 
-        sudo installer -store -pkg $formula -target /
+        sudo installer -pkg $formula -target /
         rm -rf $formula
     done > >($source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Larger Applications")
 
@@ -227,7 +227,7 @@ downloadName(){
     
     echo "This is the new name: $nameinfo";
 
-    if [ "$serial" == ""]; then
+    if [ "$nameinfo" == ""]; then
         getBarcode
         getName
     else
@@ -262,7 +262,7 @@ case "$modelname" in
 esac
 
 finish(){
-     echo 'Sending computer information to Tech Support......     '
+    echo 'Sending computer information to Tech Support......     '
 
     mac=`ifconfig | grep ether | head -n1 | base64`;
     name=`$computername | base64`;
