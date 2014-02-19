@@ -17,13 +17,11 @@ source_file_tmp=$source_dir/.osx-bootstrap-tmp
 # define helpers
 source $source_dir/core/helpers.sh
 
-# create bootstrap tmp
-
 # install brew
 
 mkdir ~/Desktop/Finish\ image\ logs/
 
-su administrator source $source_dir/core/brew.sh &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt
+source su administrator $source_dir/core/brew.sh &> ~/Desktop/Finish\ image\ logs/finish-brew-log.txt
 
 source $source_dir/core/system.sh $1 &> ~/Desktop/Finish\ image\ logs/finish-system-log.txt 
 # install python
