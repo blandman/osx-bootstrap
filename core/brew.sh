@@ -8,7 +8,7 @@ rm -f $source_dir/tmp/hpipe
 mkdir $source_dir/tmp
 mkfifo $source_dir/tmp/hpipe
 
-log=~/Desktop/Finish\ image\ log/finish-brew-log.sh
+log=/Users/administrator/Desktop/Finish\ image\ logs/finish-brew-log.sh
 
 # create a background job which takes its input from the named pipe
 $source_dir/extras/CocoaDialog.app/Contents/MacOS/CocoaDialog progressbar --title "Installing Required Scripts" --indeterminate --text "Managing Brew..." < $log &
